@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
+import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 
 const BlogsPage = ({ metas }) => {
-	console.log('data =>', metas);
 	return (
 		<>
 			<main>
@@ -27,6 +27,7 @@ const BlogsPage = ({ metas }) => {
 				<div className="flex content-center">
 					<section className="container mt-6 mx-auto">
 						<h2 className="font-bold text-2xl text-left">Latest Strories</h2>
+						<PaginatedArticles metas={metas} />
 					</section>
 				</div>
 			</main>
