@@ -11,7 +11,7 @@ import Sidebar from '@/components/common/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import SinglePagePagination from '@/components/blogs/SinglePagePagination';
 
-const ArticlePage = ({ content }) => {
+const ArticlePage = ({ content, prevSlug, nextSlug }) => {
 	console.log('ArticlePage =>', content);
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
@@ -101,7 +101,7 @@ const ArticlePage = ({ content }) => {
 							<p className="text-gray-700 mb-4">
 								Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin...
 							</p> */}
-							<SinglePagePagination />
+							<SinglePagePagination prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
 					<Sidebar />
@@ -126,9 +126,18 @@ export async function getStaticProps(context) {
 	const { slug } = context.params;
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/${slug}`);
 	const data = await response.json();
+
+	const allBlogsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
+	const allBlogs = await allBlogsResponse.json();
+	const allSlugs = allBlogs.map((blog) => blog.slug);
+	const currentIndex = allSlugs.indexOf(slug);
+	const nextSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : null;
+	const prevSlug = currentIndex < allSlugs.length - 1 ? allSlugs[currentIndex + 1] : null;
 	return {
 		props: {
 			content: data,
+			prevSlug,
+			nextSlug,
 		},
 		revalidate: 600,
 	};
