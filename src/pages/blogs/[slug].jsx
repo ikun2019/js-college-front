@@ -11,8 +11,8 @@ import Sidebar from '@/components/common/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import SinglePagePagination from '@/components/blogs/SinglePagePagination';
 
-const ArticlePage = ({ content, prevSlug, nextSlug }) => {
-	console.log('ArticlePage =>', content);
+const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
+	console.log('ArticlePage =>', allBlogs);
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
@@ -105,7 +105,7 @@ const ArticlePage = ({ content, prevSlug, nextSlug }) => {
 						</div>
 					</div>
 					<aside className="w-full lg:w-1/3">
-						<Sidebar />
+						<Sidebar metas={allBlogs} />
 					</aside>
 				</div>
 			</main>
@@ -138,6 +138,7 @@ export async function getStaticProps(context) {
 	return {
 		props: {
 			content: data,
+			allBlogs,
 			prevSlug,
 			nextSlug,
 		},

@@ -1,6 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 
-const Sidebar = () => {
+const Sidebar = ({ metas }) => {
+	const uniqueTags = metas.reduce((acc, meta) => [...acc, ...meta.tags], []);
 	return (
 		<>
 			{/* <!-- Sidebar --> */}
@@ -9,31 +11,13 @@ const Sidebar = () => {
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
 					<h3 className="text-xl font-bold mb-4">Categories</h3>
 					<ul>
-						<li className="mb-2">
-							<a href="#" className="text-gray-700">
-								Appetizers
-							</a>
-						</li>
-						<li className="mb-2">
-							<a href="#" className="text-gray-700">
-								Main Course
-							</a>
-						</li>
-						<li className="mb-2">
-							<a href="#" className="text-gray-700">
-								Desserts
-							</a>
-						</li>
-						<li className="mb-2">
-							<a href="#" className="text-gray-700">
-								Drinks
-							</a>
-						</li>
-						<li>
-							<a href="#" className="text-gray-700">
-								Teas
-							</a>
-						</li>
+						{uniqueTags.map((uniqueTag, index) => (
+							<li key={index} className="mb-2">
+								<Link href={`/${uniqueTag}`} className="text-gray-700 hover:underline">
+									{uniqueTag}
+								</Link>
+							</li>
+						))}
 					</ul>
 				</div>
 
@@ -95,43 +79,6 @@ const Sidebar = () => {
 							</a>
 						</li>
 					</ul>
-				</div>
-
-				{/* <!-- Instagram --> */}
-				<div className="bg-white p-6 rounded-lg shadow-lg">
-					<h3 className="text-xl font-bold mb-4">Instagram</h3>
-					<div className="grid grid-cols-3 gap-2">
-						<img
-							src="https://via.placeholder.com/100"
-							alt="Instagram image"
-							className="w-full h-24 object-cover rounded"
-						/>
-						<img
-							src="https://via.placeholder.com/100"
-							alt="Instagram image"
-							className="w-full h-24 object-cover rounded"
-						/>
-						<img
-							src="https://via.placeholder.com/100"
-							alt="Instagram image"
-							className="w-full h-24 object-cover rounded"
-						/>
-						<img
-							src="https://via.placeholder.com/100"
-							alt="Instagram image"
-							className="w-full h-24 object-cover rounded"
-						/>
-						<img
-							src="https://via.placeholder.com/100"
-							alt="Instagram image"
-							className="w-full h-24 object-cover rounded"
-						/>
-						<img
-							src="https://via.placeholder.com/100"
-							alt="Instagram image"
-							className="w-full h-24 object-cover rounded"
-						/>
-					</div>
 				</div>
 			</div>
 		</>

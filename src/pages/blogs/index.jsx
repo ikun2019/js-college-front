@@ -39,7 +39,7 @@ const BlogsPage = ({ metas }) => {
 							<PaginatedArticles metas={metas} />
 						</div>
 						<aside className="w-full lg:w-1/3 lg:mt-6">
-							<Sidebar />
+							<Sidebar metas={metas} />
 						</aside>
 					</div>
 				</section>

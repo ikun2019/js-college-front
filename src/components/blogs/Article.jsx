@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const Article = ({ meta }) => {
-	console.log('Article =>', meta);
 	return (
 		<>
 			<article className="h-full">
