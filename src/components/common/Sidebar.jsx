@@ -67,8 +67,11 @@ const Sidebar = ({ metas }) => {
 						{results.length > 0 && (
 							<ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-2">
 								{results.map((result, index) => (
-									<li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-										<Link href={`/blogs/${result.slug}`} className="inline-block w-full h-full">
+									<li key={index} className="hover:bg-gray-100 cursor-pointer">
+										<Link
+											href={`/blogs/${result.slug}`}
+											className="px-4 py-2 inline-block w-full h-full"
+										>
 											{result.title}
 										</Link>
 									</li>
