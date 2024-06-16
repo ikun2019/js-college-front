@@ -9,7 +9,7 @@ const Sidebar = ({ metas }) => {
 			<div className="w-full px-6">
 				{/* <!-- Categories --> */}
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-					<h3 className="text-xl font-bold mb-4">Categories</h3>
+					<p className="text-xl font-bold mb-4">Categories</p>
 					<ul>
 						{uniqueTags.map((uniqueTag, index) => (
 							<li key={index} className="mb-2">
@@ -23,7 +23,7 @@ const Sidebar = ({ metas }) => {
 
 				{/* <!-- Search --> */}
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-					<h3 className="text-xl font-bold mb-4">Search</h3>
+					<p className="text-xl font-bold mb-4">Search</p>
 					<div className="relative">
 						<input
 							type="text"
@@ -51,7 +51,7 @@ const Sidebar = ({ metas }) => {
 
 				{/* <!-- Top Posts --> */}
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-					<h3 className="text-xl font-bold mb-4">Top Posts</h3>
+					<p className="text-xl font-bold mb-4">Top Posts</p>
 					<ul>
 						<li className="mb-2">
 							<a href="#" className="text-gray-700">

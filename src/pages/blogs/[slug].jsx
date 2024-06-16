@@ -57,7 +57,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 									},
 									h3(props) {
 										return (
-											<h3 className="text-xl border-l-4 border-gray-500 pl-4 mb-4">
+											<h3 className="text-xl border-l-4 border-gray-500 pl-4 mb-4 mt-3">
 												{props.children}
 											</h3>
 										);
