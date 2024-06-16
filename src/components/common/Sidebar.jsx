@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const Sidebar = ({ metas }) => {
+	const [searchWord, setSearchWord] = useState('');
+	const [results, setResults] = useState([]);
+
+	useEffect(() => {
+		if (searchWord) {
+			const results = metas.filter((meta) => {
+				return meta.title.toLowerCase().includes(searchWord.toLowerCase());
+			});
+			console.log(results);
+			setResults(results);
+		} else {
+			setResults([]);
+		}
+	}, [searchWord, metas]);
+
+	// ユニークなtagを格納した配列を作成
 	const uniqueTags = metas.reduce((acc, meta) => [...acc, ...meta.tags], []);
 	return (
 		<>
@@ -29,6 +45,8 @@ const Sidebar = ({ metas }) => {
 							type="text"
 							className="w-full px-4 py-2 border rounded-lg"
 							placeholder="Search..."
+							value={searchWord}
+							onChange={(e) => setSearchWord(e.target.value)}
 						/>
 						<button className="absolute right-2 top-2 text-gray-500">
 							<svg
@@ -46,6 +64,17 @@ const Sidebar = ({ metas }) => {
 								/>
 							</svg>
 						</button>
+						{results.length > 0 && (
+							<ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-2">
+								{results.map((result, index) => (
+									<li key={index} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+										<Link href={`/blogs/${result.slug}`} className="inline-block w-full h-full">
+											{result.title}
+										</Link>
+									</li>
+								))}
+							</ul>
+						)}
 					</div>
 				</div>
 
@@ -54,29 +83,29 @@ const Sidebar = ({ metas }) => {
 					<p className="text-xl font-bold mb-4">Top Posts</p>
 					<ul>
 						<li className="mb-2">
-							<a href="#" className="text-gray-700">
+							<Link href="#" className="text-gray-700">
 								1. Aenean mattis tortor ac sapien congue molestie.
-							</a>
+							</Link>
 						</li>
 						<li className="mb-2">
-							<a href="#" className="text-gray-700">
+							<Link href="#" className="text-gray-700">
 								2. Vestibulum atme ipsum primis in arcu faucibus.
-							</a>
+							</Link>
 						</li>
 						<li className="mb-2">
-							<a href="#" className="text-gray-700">
+							<Link href="#" className="text-gray-700">
 								3. Sapien atám odio ultrices posuere vulputate vitae lorem.
-							</a>
+							</Link>
 						</li>
 						<li className="mb-2">
-							<a href="#" className="text-gray-700">
+							<Link href="#" className="text-gray-700">
 								4. Etiam eu odio in sapien posuere bibendum vitae sit amet lorem.
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a href="#" className="text-gray-700">
+							<Link href="#" className="text-gray-700">
 								5. Morbi eget leo et gravida sagittis nec noe facilis.
-							</a>
+							</Link>
 						</li>
 					</ul>
 				</div>
