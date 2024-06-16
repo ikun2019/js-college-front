@@ -4,7 +4,7 @@ const Sidebar = () => {
 	return (
 		<>
 			{/* <!-- Sidebar --> */}
-			<div className="w-full lg:w-1/3 px-6">
+			<div className="w-full px-6">
 				{/* <!-- Categories --> */}
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
 					<h3 className="text-xl font-bold mb-4">Categories</h3>

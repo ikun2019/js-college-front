@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
+import Sidebar from '@/components/common/Sidebar';
 
 const BlogsPage = ({ metas }) => {
 	const breadcrumbs = [
@@ -30,13 +31,18 @@ const BlogsPage = ({ metas }) => {
 						</div>
 					</div>
 				</section>
-				<div className="flex content-center">
-					<section className="container mt-6 mx-auto">
-						<BreadcrumbComponent breadcrumbs={breadcrumbs} />
-						<h2 className="font-bold text-2xl text-left mt-6">Latest Strories</h2>
-						<PaginatedArticles metas={metas} />
-					</section>
-				</div>
+				<section className="container">
+					<div className="flex flex-wrap -mx-6">
+						<div className="w-full lg:w-2/3 px-6 mb-12">
+							<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+							<h2 className="font-bold text-2xl text-left mt-6">Latest Strories</h2>
+							<PaginatedArticles metas={metas} />
+						</div>
+						<aside className="w-full lg:w-1/3 lg:mt-6">
+							<Sidebar />
+						</aside>
+					</div>
+				</section>
 			</main>
 		</>
 	);

@@ -104,7 +104,9 @@ const ArticlePage = ({ content, prevSlug, nextSlug }) => {
 							<SinglePagePagination prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
-					<Sidebar />
+					<aside className="w-full lg:w-1/3">
+						<Sidebar />
+					</aside>
 				</div>
 			</main>
 		</>
