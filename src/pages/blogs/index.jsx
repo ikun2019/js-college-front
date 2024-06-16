@@ -1,8 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
+
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
+import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 
 const BlogsPage = ({ metas }) => {
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'blogs', href: '/blogs' },
+	];
 	return (
 		<>
 			<main>
@@ -26,7 +32,8 @@ const BlogsPage = ({ metas }) => {
 				</section>
 				<div className="flex content-center">
 					<section className="container mt-6 mx-auto">
-						<h2 className="font-bold text-2xl text-left">Latest Strories</h2>
+						<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+						<h2 className="font-bold text-2xl text-left mt-6">Latest Strories</h2>
 						<PaginatedArticles metas={metas} />
 					</section>
 				</div>

@@ -6,7 +6,7 @@ import { HomeIcon, NewspaperIcon } from '@heroicons/react/16/solid/index.js';
 
 const Header = () => {
 	return (
-		<header className="font-mono flex justify-between py-3 px-6">
+		<header className="font-mono flex justify-between py-3 px-6 fixed bg-white shadow-md w-full z-50">
 			<div>
 				<p className="font-sans text-sm text-gray-500">JavaScriptを学ぶなら</p>
 				<p className="text-xl">JS College</p>

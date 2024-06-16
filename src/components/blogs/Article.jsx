@@ -8,14 +8,14 @@ const Article = ({ meta }) => {
 		<>
 			<article className="h-full">
 				<Link href={`/blogs/${meta.slug}`} className="h-full flex flex-col">
-					<div class="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
-						<div class="relative">
+					<div className="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
+						<div className="relative">
 							<Image
 								src="https://via.placeholder.com/400x300"
 								alt={meta.title}
 								width={400}
 								height={300}
-								class="w-full h-40 object-cover rounded-t-lg"
+								className="w-full h-40 object-cover rounded-t-lg"
 							/>
 							{/* <span class="absolute top-2 left-2 bg-blue-500 text-white text-sm px-2 py-1 rounded">
 								10% Cashback
