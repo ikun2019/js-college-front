@@ -29,7 +29,7 @@ const Sidebar = ({ metas }) => {
 					<ul>
 						{uniqueTags.map((uniqueTag, index) => (
 							<li key={index} className="mb-2">
-								<Link href={`/${uniqueTag}`} className="text-gray-700 hover:underline">
+								<Link href={`/blogs/tag/${uniqueTag}`} className="text-gray-700 hover:underline">
 									{uniqueTag}
 								</Link>
 							</li>

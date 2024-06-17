@@ -31,7 +31,7 @@ const BlogsPage = ({ metas }) => {
 						</div>
 					</div>
 				</section>
-				<section className="container">
+				<section className="container mt-6">
 					<div className="flex flex-wrap -mx-6">
 						<div className="w-full lg:w-2/3 px-6 mb-12">
 							<BreadcrumbComponent breadcrumbs={breadcrumbs} />
