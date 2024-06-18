@@ -25,7 +25,7 @@ const Sidebar = ({ metas }) => {
 			<div className="w-full px-6">
 				{/* <!-- Categories --> */}
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-					<p className="text-xl font-bold mb-4">Categories</p>
+					<p className="text-xl font-bold mb-4">Tags</p>
 					<ul>
 						{uniqueTags.map((uniqueTag, index) => (
 							<li key={index} className="mb-2">

@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Sidebar from '@/components/common/Sidebar';
+import PaginationComponent from '@/components/blogs/PaginationComponent';
 
 const BlogsPage = ({ metas }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
 	];
+
+	const [paginatedMetas, setPaginatedMetas] = useState([]);
+
+	const articlePerPage = 10;
+	const handlePaginatedMetasChange = (newPaginatedMetas) => {
+		setPaginatedMetas(newPaginatedMetas);
+	};
+
 	return (
 		<>
 			<main>
@@ -36,7 +45,12 @@ const BlogsPage = ({ metas }) => {
 						<div className="w-full lg:w-2/3 px-6 mb-12">
 							<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 							<h2 className="font-bold text-2xl text-left mt-6">Latest Strories</h2>
-							<PaginatedArticles metas={metas} />
+							<PaginatedArticles metas={paginatedMetas} />
+							<PaginationComponent
+								metas={metas}
+								articlePerPage={articlePerPage}
+								onPagenatedMetasChange={handlePaginatedMetasChange}
+							/>
 						</div>
 						<aside className="w-full lg:w-1/3 lg:mt-6">
 							<Sidebar metas={metas} />
