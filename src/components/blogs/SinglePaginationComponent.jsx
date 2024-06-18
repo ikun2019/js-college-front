@@ -8,7 +8,7 @@ import {
 	PaginationNext,
 } from '../ui/pagination';
 
-const SinglePagePagination = ({ prevSlug, nextSlug }) => {
+const SinglePagenationComponent = ({ prevSlug, nextSlug }) => {
 	return (
 		<div className="flex justify-between items-center">
 			<Pagination>
@@ -29,4 +29,4 @@ const SinglePagePagination = ({ prevSlug, nextSlug }) => {
 	);
 };
 
-export default SinglePagePagination;
+export default SinglePagenationComponent;
