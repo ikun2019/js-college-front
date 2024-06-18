@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
@@ -13,6 +14,9 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 	];
 	return (
 		<>
+			<Head>
+				<meta name="robots" content="index,follow" />
+			</Head>
 			<main className="mt-6">
 				<section className="container">
 					<div className="flex flex-wrap -mx-6">

@@ -23,6 +23,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 			<Head>
 				<title>{content.metadata.title}</title>
 				<meta name="description" content={content.metadata.description} />
+				<meta name="robots" content="index,follow" />
 			</Head>
 			<main className="container mx-auto px-6 py-8">
 				<div className="flex flex-wrap -mx-6">

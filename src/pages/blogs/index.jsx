@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Head from 'next/head';
 
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
@@ -21,6 +22,9 @@ const BlogsPage = ({ metas }) => {
 
 	return (
 		<>
+			<Head>
+				<meta name="robots" content="index,follow" />
+			</Head>
 			<main>
 				<section className="relative">
 					<Image
