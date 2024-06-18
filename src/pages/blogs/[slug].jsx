@@ -9,7 +9,7 @@ import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 // コンポーネントのインポート
 import Sidebar from '@/components/common/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import SinglePagePagination from '@/components/blogs/SinglePagePagination';
+import SinglePagenationComponent from '@/components/blogs/SinglePaginationComponent';
 
 const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 	console.log('ArticlePage =>', allBlogs);
@@ -21,7 +21,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 	return (
 		<>
 			<Head>
-				<title>{content.metadata.title}</title>
+				<title>{content.metadata.title} | JS College</title>
 				<meta name="description" content={content.metadata.description} />
 				<meta name="robots" content="index,follow" />
 			</Head>
@@ -31,7 +31,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 					<div className="w-full lg:w-2/3 px-6 mb-12">
 						<div className="bg-white p-6 rounded-lg shadow-lg">
 							<img
-								src="https://via.placeholder.com/800x400"
+								src={content.metadata.image.file.url}
 								alt="Blog image"
 								className="w-full h-64 object-cover rounded-t-lg mb-4"
 							/>
@@ -102,7 +102,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 							<p className="text-gray-700 mb-4">
 								Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin...
 							</p> */}
-							<SinglePagePagination prevSlug={prevSlug} nextSlug={nextSlug} />
+							<SinglePagenationComponent prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
 					<aside className="w-full lg:w-1/3">

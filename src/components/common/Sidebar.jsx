@@ -90,26 +90,6 @@ const Sidebar = ({ metas }) => {
 								1. Aenean mattis tortor ac sapien congue molestie.
 							</Link>
 						</li>
-						<li className="mb-2">
-							<Link href="#" className="text-gray-700">
-								2. Vestibulum atme ipsum primis in arcu faucibus.
-							</Link>
-						</li>
-						<li className="mb-2">
-							<Link href="#" className="text-gray-700">
-								3. Sapien atám odio ultrices posuere vulputate vitae lorem.
-							</Link>
-						</li>
-						<li className="mb-2">
-							<Link href="#" className="text-gray-700">
-								4. Etiam eu odio in sapien posuere bibendum vitae sit amet lorem.
-							</Link>
-						</li>
-						<li>
-							<Link href="#" className="text-gray-700">
-								5. Morbi eget leo et gravida sagittis nec noe facilis.
-							</Link>
-						</li>
 					</ul>
 				</div>
 			</div>
