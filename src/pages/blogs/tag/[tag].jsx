@@ -4,11 +4,12 @@ import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 import Sidebar from '@/components/common/Sidebar';
 
-const TagPage = ({ metas }) => {
+const TagPage = ({ metas, filteredMetas, tag }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
 		{ label: 'tag', href: '/tag' },
+		{ label: tag, href: `/${tag}` },
 	];
 	return (
 		<>
@@ -18,7 +19,7 @@ const TagPage = ({ metas }) => {
 						<div className="w-full lg:w-2/3 px-6 mb-12">
 							<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 							<h2 className="font-bold text-2xl text-left mt-6">Latest Strories</h2>
-							<PaginatedArticles metas={metas} />
+							<PaginatedArticles metas={filteredMetas} />
 						</div>
 						<aside className="w-full lg:w-1/3 lg:mt-6">
 							<Sidebar metas={metas} />
@@ -33,12 +34,17 @@ const TagPage = ({ metas }) => {
 export async function getServerSideProps(context) {
 	const { tag } = context.params;
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/tag/${tag}`);
-		const data = await response.json();
-		console.log('tag =>', data);
+		const [tagResponse, allResponse] = await Promise.all([
+			fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs/tag/${tag}`),
+			fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`),
+		]);
+		const tagData = await tagResponse.json();
+		const allData = await allResponse.json();
 		return {
 			props: {
-				metas: data,
+				metas: allData,
+				filteredMetas: tagData,
+				tag: tag,
 			},
 		};
 	} catch (err) {
