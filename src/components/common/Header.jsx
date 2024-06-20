@@ -13,14 +13,14 @@ const Header = () => {
 			</div>
 			<nav className="flex items-center">
 				<ul className="flex items-center">
-					{/* <li>
+					<li>
 						<Button variant="ghost" asChild>
 							<Link href="/" className="text-gray-600">
 								<HomeIcon className="size-4" />
 								Home
 							</Link>
 						</Button>
-					</li> */}
+					</li>
 					<li>
 						<Button variant="ghost" asChild>
 							<Link href="/blogs" className="text-gray-600">
