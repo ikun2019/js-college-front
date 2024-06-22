@@ -9,5 +9,5 @@ RUN npm ci
 # ソースコードをコピーしてビルド
 COPY . .
 
-CMD npm run dev
+CMD npm run start
 EXPOSE 3000
