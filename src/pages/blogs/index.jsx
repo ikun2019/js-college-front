@@ -79,8 +79,8 @@ export async function getServerSideProps() {
 				metas: data,
 			},
 		};
-	} catch (err) {
-		console.error(err);
+	} catch (error) {
+		console.error(error);
 		return {
 			props: {
 				metas: [],
