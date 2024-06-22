@@ -70,7 +70,9 @@ const BlogsPage = ({ metas }) => {
 export async function getServerSideProps() {
 	try {
 		console.log(process.env.NEXT_PUBLIC_API_URL);
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_API_URL}/blogs` || 'https://api.js-college.net/api/blogs'
+		);
 		if (!response.ok) {
 			throw new Error(`${response.statusText}`);
 		}
