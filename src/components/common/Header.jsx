@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { Button } from '../ui/button';
-import { HomeIcon, NewspaperIcon } from '@heroicons/react/16/solid/index.js';
+// import { HomeIcon, NewspaperIcon } from '@heroicons/react/16/solid/index.js';
 
 const Header = () => {
 	return (
@@ -24,7 +24,7 @@ const Header = () => {
 					<li>
 						<Button variant="ghost" asChild>
 							<Link href="/blogs" className="text-gray-600">
-								<NewspaperIcon className="size-4" />
+								{/* <NewspaperIcon className="size-4" /> */}
 								Blogs
 							</Link>
 						</Button>
