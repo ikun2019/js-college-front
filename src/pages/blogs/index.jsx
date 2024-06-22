@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
+import fetch from 'node-fetch';
 
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';

@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import fetch from 'node-fetch';
 
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import PaginatedArticles from '@/components/blogs/PaginatedArticles';
