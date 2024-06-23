@@ -9,6 +9,7 @@ const LearningPage = () => {
 				<meta name="robots" content="noindex,nofollow" />
 			</Head>
 			<main class="container mx-auto px-6 py-8">
+				{/* ヒーローセクション */}
 				<section class="mb-12">
 					<div class="relative">
 						<Image
@@ -126,7 +127,7 @@ const LearningPage = () => {
 							<div>
 								<span class="font-bold">Courses</span>
 							</div>
-							<div>
+							{/* <div>
 								<span class="font-bold">SORT BY</span>
 								<a href="#" class="ml-2 text-gray-700 hover:text-gray-900">
 									Relevance
@@ -137,7 +138,7 @@ const LearningPage = () => {
 								<a href="#" class="ml-2 text-gray-700 hover:text-gray-900">
 									Popularity
 								</a>
-							</div>
+							</div> */}
 						</div>
 
 						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

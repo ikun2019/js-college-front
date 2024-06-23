@@ -13,19 +13,26 @@ const Header = () => {
 			</div>
 			<nav className="flex items-center">
 				<ul className="flex items-center">
-					{/* <li>
+					<li>
 						<Button variant="ghost" asChild>
 							<Link href="/" className="text-gray-600">
-								<HomeIcon className="size-4" />
+								{/* <HomeIcon className="size-4" /> */}
 								Home
 							</Link>
 						</Button>
-					</li> */}
+					</li>
 					<li>
 						<Button variant="ghost" asChild>
 							<Link href="/blogs" className="text-gray-600">
 								{/* <NewspaperIcon className="size-4" /> */}
 								Blogs
+							</Link>
+						</Button>
+					</li>
+					<li>
+						<Button variant="gohst" asChild>
+							<Link href="/learning" className="text-gray-600">
+								Learning
 							</Link>
 						</Button>
 					</li>

@@ -105,9 +105,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 							<SinglePagenationComponent prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
-					<aside className="w-full lg:w-1/3">
-						<Sidebar metas={allBlogs} />
-					</aside>
+					<Sidebar metas={allBlogs} />
 				</div>
 			</main>
 		</>

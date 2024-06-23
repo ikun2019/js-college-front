@@ -26,40 +26,43 @@ const BlogsPage = ({ metas }) => {
 			<Head>
 				<meta name="robots" content="index,follow" />
 			</Head>
-			<main>
-				<section className="relative">
-					<Image
-						src="/hero.jpg"
-						alt="hero画像"
-						width={1000}
-						height={500}
-						layout="responsive"
-						className="max-h-72"
-					/>
-					<div className="absolute inset-0 h-full bg-black bg-opacity-40"></div>
-					<div className="absolute inset-0 h-full flex items-center justify-center">
-						<div>
-							<h1 className="text-white text-3xl font-bold">
-								Engineering blog for individual developers
-							</h1>
+			<main className="container mx-auto px-6 py-8">
+				{/* ヒーローセクション */}
+				<section className="mb-12">
+					<div className="relative">
+						<Image
+							src="/hero.jpg"
+							alt="hero画像"
+							width={1200}
+							height={400}
+							className="w-full h-64 object-cover rounded-lg"
+						/>
+						<div className="absolute bottom-0 left-0 p-6 bg-gray-900 bg-opacity-50 text-white rounded-b-lg w-full">
+							<h1 className="text-4xl font-bold font-serif">TECH BLOG</h1>
+							<p>Engineering blog for individual developers.</p>
 						</div>
 					</div>
 				</section>
-				<section className="container mt-6">
-					<div className="flex flex-wrap -mx-6">
-						<div className="w-full lg:w-2/3 px-6 mb-12">
-							<BreadcrumbComponent breadcrumbs={breadcrumbs} />
-							<h2 className="font-bold text-2xl text-left mt-6">Latest Strories</h2>
-							<PaginatedArticles metas={paginatedMetas} />
-							<PaginationComponent
-								metas={metas}
-								articlePerPage={articlePerPage}
-								onPagenatedMetasChange={handlePaginatedMetasChange}
-							/>
+
+				<section>
+					<div className="w-full">
+						<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+						<div class="flex justify-between items-center mb-4">
+							<div>
+								<h2 className="font-bold text-left mt-6">Latest Strories</h2>
+							</div>
 						</div>
-						<aside className="w-full lg:w-1/3 lg:mt-6">
+						<div className="w-full flex flex-wrap">
+							<div className="w-full lg:w-3/4 px-6 mb-12 lg:mb-0">
+								<PaginatedArticles metas={paginatedMetas} />
+								<PaginationComponent
+									metas={metas}
+									articlePerPage={articlePerPage}
+									onPagenatedMetasChange={handlePaginatedMetasChange}
+								/>
+							</div>
 							<Sidebar metas={metas} />
-						</aside>
+						</div>
 					</div>
 				</section>
 			</main>
