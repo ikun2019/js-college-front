@@ -10,6 +10,11 @@ const nextConfig = {
         source: '/',
         destination: '/blogs',
         permanent: true,
+      },
+      {
+        source: '/learning',
+        destination: '/blogs',
+        permanent: true,
       }
     ]
   }

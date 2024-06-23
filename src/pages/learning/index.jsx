@@ -6,7 +6,7 @@ const LearningPage = () => {
 	return (
 		<>
 			<Head>
-				<meta name="robots" content="index,follow" />
+				<meta name="robots" content="noindex,nofollow" />
 			</Head>
 			<main class="container mx-auto px-6 py-8">
 				<section class="mb-12">
