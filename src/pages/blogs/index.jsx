@@ -46,12 +46,13 @@ const BlogsPage = ({ metas }) => {
 
 				{/* パンくずリスト */}
 				<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+
 				<section className="flex flex-wrap -mx-6">
 					{/* <!-- Experiences Section --> */}
 					<div className="w-full lg:w-3/4 px-6">
 						<div class="flex justify-between items-center mb-4">
 							<div>
-								<h2 className="font-bold text-left mt-6">Latest Strories</h2>
+								<h2 className="font-bold text-left">Latest Strories</h2>
 							</div>
 						</div>
 

@@ -3,8 +3,14 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 // コンポーネントのインポート
+import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 
 const LearningPage = () => {
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'Learning', href: '/learning' },
+	];
+
 	return (
 		<>
 			<Head>
@@ -21,18 +27,21 @@ const LearningPage = () => {
 							className="w-full h-64 object-cover rounded-lg"
 						/>
 						<div class="absolute bottom-0 left-0 p-6 bg-gray-900 bg-opacity-50 text-white rounded-b-lg w-full">
-							<h1 class="text-4xl font-bold">Water Adventures</h1>
-							<p>120 Experiences in New York</p>
+							<h1 class="text-4xl font-bold">PROGRAMMING LEARNING</h1>
+							<p>From development to operation...</p>
 						</div>
 					</div>
 				</section>
+
+				{/* パンくずリスト */}
+				<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 
 				<section class="flex flex-wrap -mx-6">
 					{/* <!-- Experiences Section --> */}
 					<div class="w-full lg:w-3/4 px-6">
 						<div class="flex justify-between items-center mb-4">
 							<div>
-								<span class="font-bold">Courses</span>
+								<h2 class="font-bold text-left">Courses</h2>
 							</div>
 							{/* <div>
 								<span class="font-bold">SORT BY</span>
