@@ -26,9 +26,9 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 				<meta name="robots" content="index,follow" />
 			</Head>
 			<main className="container mx-auto px-6 py-8">
-				<div className="flex flex-wrap -mx-6">
+				<section className="flex flex-wrap -mx-6">
 					{/* <!-- Blog Post --> */}
-					<div className="w-full lg:w-2/3 px-6 mb-12">
+					<div className="w-full lg:w-3/4 px-6">
 						<div className="bg-white p-6 rounded-lg shadow-lg">
 							<img
 								src={content.metadata.image.file.url}
@@ -105,8 +105,10 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 							<SinglePagenationComponent prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
+
+					{/* Sidebar */}
 					<Sidebar metas={allBlogs} />
-				</div>
+				</section>
 			</main>
 		</>
 	);

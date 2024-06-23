@@ -28,26 +28,23 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 				<meta name="robots" content="index,follow" />
 			</Head>
 			<main className="container mx-auto px-6 py-8">
-				<section>
-					<div className="w-full">
-						<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+				{/* パンくずリスト */}
+				<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+				<section className="flex flex-wrap -mx-6">
+					<div className="w-full lg:w-3/4 px-6">
 						<div class="flex justify-between items-center mb-4">
 							<div>
 								<h2 className="font-bold text-left mt-6">Tags Page</h2>
 							</div>
 						</div>
-						<div className="w-full flex flex-wrap">
-							<div className="w-full lg:w-3/4 px-6 mb-12 lg:mb-0">
-								<PaginatedArticles metas={paginatedMetas} />
-								<PaginationComponent
-									metas={filteredMetas}
-									articlePerPage={articlePerPage}
-									onPagenatedMetasChange={handlePaginatedMetasChange}
-								/>
-							</div>
-							<Sidebar metas={metas} />
-						</div>
+						<PaginatedArticles metas={paginatedMetas} />
+						<PaginationComponent
+							metas={filteredMetas}
+							articlePerPage={articlePerPage}
+							onPagenatedMetasChange={handlePaginatedMetasChange}
+						/>
 					</div>
+					<Sidebar metas={metas} />
 				</section>
 			</main>
 		</>
