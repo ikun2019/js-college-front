@@ -43,18 +43,6 @@ const LearningPage = () => {
 							<div>
 								<h2 class="font-bold text-left">Courses</h2>
 							</div>
-							{/* <div>
-								<span class="font-bold">SORT BY</span>
-								<a href="#" class="ml-2 text-gray-700 hover:text-gray-900">
-									Relevance
-								</a>
-								<a href="#" class="ml-2 text-gray-700 hover:text-gray-900">
-									Newest
-								</a>
-								<a href="#" class="ml-2 text-gray-700 hover:text-gray-900">
-									Popularity
-								</a>
-							</div> */}
 						</div>
 
 						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
