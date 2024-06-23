@@ -82,7 +82,7 @@ const Sidebar = ({ metas }) => {
 				</div>
 
 				{/* <!-- Top Posts --> */}
-				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
+				{/* <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
 					<p className="text-xl font-bold mb-4">Top Posts</p>
 					<ul>
 						<li className="mb-2">
@@ -91,7 +91,7 @@ const Sidebar = ({ metas }) => {
 							</Link>
 						</li>
 					</ul>
-				</div>
+				</div> */}
 			</div>
 		</>
 	);
