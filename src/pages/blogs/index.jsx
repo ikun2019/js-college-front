@@ -3,10 +3,10 @@ import Image from 'next/image';
 import Head from 'next/head';
 import fetch from 'node-fetch';
 
-import PaginatedArticles from '@/components/blogs/PaginatedArticles';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Sidebar from '@/components/common/Sidebar';
 import PaginationComponent from '@/components/blogs/PaginationComponent';
+import Cards from '@/components/blogs/Cards';
 
 const BlogsPage = ({ metas }) => {
 	const breadcrumbs = [
@@ -50,13 +50,15 @@ const BlogsPage = ({ metas }) => {
 				<section className="flex flex-wrap -mx-6">
 					{/* <!-- Experiences Section --> */}
 					<div className="w-full lg:w-3/4 px-6">
-						<div class="flex justify-between items-center mb-4">
+						<div className="flex justify-between items-center mb-4">
 							<div>
 								<h2 className="font-bold text-left">Latest Strories</h2>
 							</div>
 						</div>
 
-						<PaginatedArticles metas={paginatedMetas} />
+						{/* 修正 */}
+						<Cards metas={paginatedMetas} />
+						{/* 修正 */}
 						<PaginationComponent
 							metas={metas}
 							articlePerPage={articlePerPage}

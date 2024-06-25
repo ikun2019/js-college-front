@@ -3,7 +3,7 @@ import Head from 'next/head';
 import fetch from 'node-fetch';
 
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import PaginatedArticles from '@/components/blogs/PaginatedArticles';
+import Cards from '@/components/blogs/Cards';
 import PaginationComponent from '@/components/blogs/PaginationComponent';
 import Sidebar from '@/components/common/Sidebar';
 
@@ -37,7 +37,7 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 								<h2 className="font-bold text-left mt-6">Tags Page</h2>
 							</div>
 						</div>
-						<PaginatedArticles metas={paginatedMetas} />
+						<Cards metas={paginatedMetas} />
 						<PaginationComponent
 							metas={filteredMetas}
 							articlePerPage={articlePerPage}

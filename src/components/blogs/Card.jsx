@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const Article = ({ meta }) => {
+const Card = ({ meta }) => {
 	console.log('Article =>', meta.image.file);
 	return (
 		<>
@@ -50,4 +50,4 @@ const Article = ({ meta }) => {
 	);
 };
 
-export default Article;
+export default Card;
