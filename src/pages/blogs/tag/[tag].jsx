@@ -11,7 +11,6 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
-		{ label: 'tag', href: '/tag' },
 		{ label: tag, href: `/${tag}` },
 	];
 
