@@ -31,7 +31,7 @@ const BlogsPage = ({ metas }) => {
 				<section className="mb-12">
 					<div className="relative">
 						<Image
-							src="/hero.jpg"
+							src="/blog_hero.webp"
 							alt="hero画像"
 							width={1200}
 							height={400}
