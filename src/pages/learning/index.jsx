@@ -4,9 +4,9 @@ import Image from 'next/image';
 
 // コンポーネントのインポート
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import Card from '@/components/learnings/Card';
+import Cards from '@/components/learnings/Cards';
 
-const LearningPage = () => {
+const LearningPage = ({ metas }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Learning', href: '/learning' },
@@ -46,12 +46,10 @@ const LearningPage = () => {
 							</div>
 						</div>
 
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-							{/* <!-- Experience Card --> */}
-							<Card />
+						{/* <!-- Experience Card --> */}
+						<Cards metas={metas} />
 
-							{/* <!-- Duplicate above block for more experience cards --> */}
-						</div>
+						{/* <!-- Duplicate above block for more experience cards --> */}
 					</div>
 
 					{/* Sidebar */}
@@ -153,5 +151,28 @@ const LearningPage = () => {
 		</>
 	);
 };
+
+export async function getServerSideProps() {
+	try {
+		// TODO:API URLの変更
+		const response = await fetch('http://api:8080/api/learnings');
+		if (!response.ok) {
+			throw new Error(`${response.statusText}`);
+		}
+		const data = await response.json();
+		return {
+			props: {
+				metas: data,
+			},
+		};
+	} catch (error) {
+		console.error(error);
+		return {
+			props: {
+				metas: [],
+			},
+		};
+	}
+}
 
 export default LearningPage;

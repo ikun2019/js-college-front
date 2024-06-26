@@ -7,7 +7,7 @@ const Card = ({ meta }) => {
 	return (
 		<>
 			<article className="h-full">
-				<Link href={`/blogs/${meta.slug}`} className="h-full flex flex-col">
+				<Link href={`/blogs/${meta.slug}`}>
 					<div className="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
 						<div className="relative">
 							<Image
