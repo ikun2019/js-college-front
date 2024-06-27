@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -6,11 +7,11 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/blogs',
-        permanent: true,
-      },
+      // {
+      //   source: '/',
+      //   destination: '/blogs',
+      //   permanent: true,
+      // },
       // {
       //   source: '/learning',
       //   destination: '/blogs',
