@@ -26,6 +26,7 @@ export default function Home() {
 					</div>
 				</section>
 
+				{/* How it works */}
 				<section className="container mb-12 p-6">
 					<h2 className="text-3xl font-bold text-center font-serif">How it works</h2>
 					<p className="text-center my-12 mx-20 leading-relaxed">
@@ -80,9 +81,10 @@ export default function Home() {
 					</div>
 				</section>
 
+				{/* Skills to be learnt */}
 				<section className="container mb-12 bg-gray-100 p-6">
 					<h2 className="text-3xl font-bold text-center font-serif">Skills to be learnt</h2>
-					<ul className="grid grid-cols-3 md:grid-cols-4 gap-3 mt-12">
+					<ul className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
 						<li>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -138,6 +140,7 @@ export default function Home() {
 					</ul>
 				</section>
 
+				{/* Q&A */}
 				<section className="container mb-12 p-6">
 					<h2 className="text-3xl font-bold text-center font-serif">Q&A</h2>
 					<div className="mt-8 space-y-6">

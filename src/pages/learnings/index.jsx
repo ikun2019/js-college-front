@@ -19,16 +19,16 @@ const LearningPage = ({ metas }) => {
 			</Head>
 			<main class="container mx-auto px-6 py-8">
 				{/* ヒーローセクション */}
-				<section class="mb-12">
-					<div class="relative">
+				<section className="mb-12">
+					<div className="relative">
 						<Image
 							src="/learning_hero.webp"
 							width={1200}
 							height={400}
 							className="w-full h-64 object-cover rounded-lg"
 						/>
-						<div class="absolute bottom-0 left-0 p-6 bg-gray-900 bg-opacity-50 text-white rounded-b-lg w-full">
-							<h1 class="text-4xl font-bold font-serif">PROGRAMMING LEARNING</h1>
+						<div className="absolute bottom-0 left-0 p-6 bg-gray-900 bg-opacity-50 text-white rounded-b-lg w-full">
+							<h1 className="text-4xl font-bold font-serif">PROGRAMMING LEARNING</h1>
 							<p>From development to operation...</p>
 						</div>
 					</div>
