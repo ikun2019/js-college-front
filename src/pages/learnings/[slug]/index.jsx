@@ -12,7 +12,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 				<meta name="description" content={`${parentMetadata.description}`} />
 				<meta name="robots" content="noindex,nofollow" />
 			</Head>
-			<main className="container mx-auto px-6 py-8">
+			<div className="container mx-auto px-6 py-8">
 				<section className="flex flex-wrap -mx-6">
 					{/* Learnings Page */}
 					<div className="w-full lg:w-3/4 px-6">
@@ -36,7 +36,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 						</div>
 					</div>
 				</section>
-			</main>
+			</div>
 		</>
 	);
 };

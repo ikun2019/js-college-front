@@ -25,7 +25,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 				<meta name="description" content={content.metadata.description} />
 				<meta name="robots" content="index,follow" />
 			</Head>
-			<main className="container mx-auto px-6 py-8">
+			<div className="container mx-auto px-6 py-8">
 				<section className="flex flex-wrap -mx-6">
 					{/* <!-- Blog Post --> */}
 					<div className="w-full lg:w-3/4 px-6">
@@ -105,7 +105,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 					{/* Sidebar */}
 					<Sidebar metas={allBlogs} />
 				</section>
-			</main>
+			</div>
 		</>
 	);
 };

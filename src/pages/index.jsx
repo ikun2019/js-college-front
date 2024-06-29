@@ -8,7 +8,7 @@ export default function Home() {
 				<meta name="robots" content="noindex, nofollow" />
 			</Head>
 
-			<main className="mx-auto py-8">
+			<div className="mx-auto py-8">
 				{/* <!-- Hero Section --> */}
 				<section className="container mb-12 px-6">
 					<div className="relative">
@@ -167,7 +167,7 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
-			</main>
+			</div>
 		</>
 	);
 }

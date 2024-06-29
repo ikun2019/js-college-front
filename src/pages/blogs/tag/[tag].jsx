@@ -26,7 +26,7 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 			<Head>
 				<meta name="robots" content="index,follow" />
 			</Head>
-			<main className="container mx-auto px-6 py-8">
+			<div className="container mx-auto px-6 py-8">
 				{/* パンくずリスト */}
 				<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 				<section className="flex flex-wrap -mx-6">
@@ -45,7 +45,7 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 					</div>
 					<Sidebar metas={metas} />
 				</section>
-			</main>
+			</div>
 		</>
 	);
 };

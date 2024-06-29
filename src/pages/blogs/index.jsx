@@ -26,7 +26,7 @@ const BlogsPage = ({ metas }) => {
 			<Head>
 				<meta name="robots" content="index,follow" />
 			</Head>
-			<main className="container mx-auto px-6 py-8">
+			<div className="container mx-auto px-6 py-8">
 				{/* ヒーローセクション */}
 				<section className="mb-12">
 					<div className="relative">
@@ -69,7 +69,7 @@ const BlogsPage = ({ metas }) => {
 					{/* Sidebar */}
 					<Sidebar metas={metas} />
 				</section>
-			</main>
+			</div>
 		</>
 	);
 };

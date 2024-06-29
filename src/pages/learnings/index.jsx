@@ -17,7 +17,7 @@ const LearningPage = ({ metas }) => {
 			<Head>
 				<meta name="robots" content="noindex,nofollow" />
 			</Head>
-			<main class="container mx-auto px-6 py-8">
+			<div class="container mx-auto px-6 py-8">
 				{/* ヒーローセクション */}
 				<section className="mb-12">
 					<div className="relative">
@@ -147,7 +147,7 @@ const LearningPage = ({ metas }) => {
 						</div>
 					</aside>
 				</section>
-			</main>
+			</div>
 		</>
 	);
 };
