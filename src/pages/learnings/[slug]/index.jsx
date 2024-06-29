@@ -44,14 +44,11 @@ const index = ({ parentMetadata, childMetadatas }) => {
 export async function getServerSideProps(context) {
 	const { slug } = context.params;
 	try {
-		// TODO: URLの変更
-		const response = await fetch(`http://api:8080/api/learnings/${slug}`);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`);
 		if (!response.ok) {
 			throw new Error(`${response.statusText}`);
 		}
 		const data = await response.json();
-
-		console.log('data =>', data);
 
 		return {
 			props: {

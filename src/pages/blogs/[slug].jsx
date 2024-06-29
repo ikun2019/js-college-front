@@ -4,7 +4,7 @@ import Head from 'next/head';
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // コンポーネントのインポート
 import Sidebar from '@/components/common/Sidebar';
@@ -89,10 +89,11 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 												PreTag="div"
 												children={String(children).replace(/\n$/, '')}
 												language={language}
-												style={atomDark}
+												style={dracula}
+												customStyle={{ fontSize: '0.8em' }}
 											/>
 										) : (
-											<code className={className}>{children}</code>
+											<code className={`${className} text-sm`}>{children}</code>
 										);
 									},
 								}}

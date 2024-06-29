@@ -154,8 +154,7 @@ const LearningPage = ({ metas }) => {
 
 export async function getServerSideProps() {
 	try {
-		// TODO:API URLの変更
-		const response = await fetch('http://api:8080/api/learnings');
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`);
 		if (!response.ok) {
 			throw new Error(`${response.statusText}`);
 		}
