@@ -75,6 +75,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug }) => {
 									},
 								}}
 							/>
+							<button type="submit">complete</button>
 							<SinglePagenationComponent
 								page={`/learnings/${slug}`}
 								prevSlug={prevSlug}
