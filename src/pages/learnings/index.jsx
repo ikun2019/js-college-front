@@ -6,7 +6,7 @@ import Image from 'next/image';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Cards from '@/components/learnings/Cards';
 import Sidebar from '@/components/learnings/Sidebar';
-import PaginationComponent from '@/components/blogs/PaginationComponent';
+import PaginationComponent from '@/components/common/PaginationComponent';
 
 const LearningPage = ({ metas }) => {
 	const breadcrumbs = [

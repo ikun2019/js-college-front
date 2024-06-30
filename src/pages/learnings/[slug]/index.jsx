@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Sidebar from '@/components/learnings/Sidebar';
 
 const index = ({ parentMetadata, childMetadatas }) => {
 	console.log('Learnings Slug Page');

@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Sidebar from '@/components/common/Sidebar';
-import PaginationComponent from '@/components/blogs/PaginationComponent';
+import PaginationComponent from '@/components/common/PaginationComponent';
 import Cards from '@/components/blogs/Cards';
 
 const BlogsPage = ({ metas }) => {

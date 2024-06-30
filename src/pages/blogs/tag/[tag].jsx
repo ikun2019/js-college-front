@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Cards from '@/components/blogs/Cards';
-import PaginationComponent from '@/components/blogs/PaginationComponent';
+import PaginationComponent from '@/components/common/PaginationComponent';
 import Sidebar from '@/components/common/Sidebar';
 
 const TagPage = ({ metas, filteredMetas, tag }) => {
