@@ -99,7 +99,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 								}}
 								className="text-gray-700 mb-4"
 							></ReactMarkdown>
-							<SinglePagenationComponent prevSlug={prevSlug} nextSlug={nextSlug} />
+							<SinglePagenationComponent page="/blogs" prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
 

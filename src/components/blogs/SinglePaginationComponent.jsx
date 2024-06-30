@@ -8,19 +8,19 @@ import {
 	PaginationNext,
 } from '../ui/pagination';
 
-const SinglePagenationComponent = ({ prevSlug, nextSlug }) => {
+const SinglePagenationComponent = ({ page, prevSlug, nextSlug }) => {
 	return (
 		<div className="flex justify-between items-center">
 			<Pagination>
 				<PaginationContent>
 					{prevSlug && (
 						<PaginationItem>
-							<PaginationPrevious href={`/blogs/${prevSlug}`} />
+							<PaginationPrevious href={`${page}/${prevSlug}`} />
 						</PaginationItem>
 					)}
 					{nextSlug && (
 						<PaginationItem>
-							<PaginationNext href={`/blogs/${nextSlug}`} />
+							<PaginationNext href={`${page}/${nextSlug}`} />
 						</PaginationItem>
 					)}
 				</PaginationContent>

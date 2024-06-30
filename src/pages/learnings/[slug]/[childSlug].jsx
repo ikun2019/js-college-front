@@ -11,7 +11,7 @@ import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 // コンポーネントのインポート
 import SinglePagenationComponent from '@/components/blogs/SinglePaginationComponent';
 
-const LearningContent = ({ metadata, markdown, prevSlug, nextSlug }) => {
+const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug }) => {
 	return (
 		<>
 			<Head>
@@ -75,7 +75,11 @@ const LearningContent = ({ metadata, markdown, prevSlug, nextSlug }) => {
 									},
 								}}
 							/>
-							<SinglePagenationComponent prevSlug={prevSlug} nextSlug={nextSlug} />
+							<SinglePagenationComponent
+								page={`/learnings/${slug}`}
+								prevSlug={prevSlug}
+								nextSlug={nextSlug}
+							/>
 						</div>
 					</div>
 				</section>
@@ -141,6 +145,7 @@ export async function getStaticProps(context) {
 			markdown: childCourse.markdown,
 			prevSlug,
 			nextSlug,
+			slug,
 		},
 	};
 }
