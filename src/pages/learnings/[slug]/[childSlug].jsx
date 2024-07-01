@@ -9,9 +9,10 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // コンポーネントのインポート
-import SinglePagenationComponent from '@/components/blogs/SinglePaginationComponent';
+import SinglePagenationComponent from '@/components/common/SinglePaginationComponent';
+import SidebarCourse from '@/components/learnings/SidebarCourse';
 
-const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug }) => {
+const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
 	return (
 		<>
 			<Head>
@@ -83,6 +84,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug }) => {
 							/>
 						</div>
 					</div>
+					<SidebarCourse headings={headings} />
 				</section>
 			</div>
 		</>
@@ -130,7 +132,7 @@ export async function getStaticProps(context) {
 	const childResponse = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}/${childSlug}`
 	);
-	if (!childResponse) {
+	if (!childResponse.ok) {
 		throw new Error(`No data found for childSlug: ${childSlug}`);
 	}
 	const childCourse = await childResponse.json();
@@ -144,6 +146,7 @@ export async function getStaticProps(context) {
 		props: {
 			metadata: childCourse.metadata,
 			markdown: childCourse.markdown,
+			headings: childCourse.headings,
 			prevSlug,
 			nextSlug,
 			slug,

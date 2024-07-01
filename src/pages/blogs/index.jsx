@@ -4,7 +4,7 @@ import Head from 'next/head';
 import fetch from 'node-fetch';
 
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import Sidebar from '@/components/common/Sidebar';
+import Sidebar from '@/components/Blogs/Sidebar';
 import PaginationComponent from '@/components/common/PaginationComponent';
 import Cards from '@/components/blogs/Cards';
 

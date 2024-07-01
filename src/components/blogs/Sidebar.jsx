@@ -22,7 +22,7 @@ const Sidebar = ({ metas }) => {
 	return (
 		<>
 			{/* <!-- Sidebar --> */}
-			<aside className="w-full lg:w-1/4 px-6 mb-12 lg:mb-0">
+			<aside className="w-full lg:w-1/4 px-6 mb-12 lg:mb-0 mt-6 lg:mt-0">
 				{/* <!-- Categories --> */}
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
 					<span className="text-2xl font-semibold mb-4 block font-sans">Filters</span>

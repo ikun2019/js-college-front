@@ -3,7 +3,7 @@ import React from 'react';
 const Sidebar = () => {
 	return (
 		<>
-			<aside className="w-full lg:w-1/4 px-6 mb-12 lg:mb-0">
+			<aside className="w-full lg:w-1/4 px-6 mb-12 lg:mb-0 mt-6 lg:mt-0">
 				<div className="bg-white p-6 rounded-lg shadow-lg mb-6">
 					<h2 className="text-2xl font-bold mb-4">Filters</h2>
 					<div>
