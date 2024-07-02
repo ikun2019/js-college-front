@@ -56,7 +56,7 @@ const LearningPage = ({ metas }) => {
 						</div>
 
 						{/* <!-- Experience Card --> */}
-						<Cards metas={metas} />
+						<Cards metas={paginatedMetas} />
 
 						<PaginationComponent
 							metas={metas}
