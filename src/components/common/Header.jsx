@@ -2,9 +2,19 @@ import React from 'react';
 import Link from 'next/link';
 
 import { Button } from '../ui/button';
-// import { HomeIcon, NewspaperIcon } from '@heroicons/react/16/solid/index.js';
+import useAuthSesseion from '@/hooks/useAuthSession';
+import useAuth from '@/hooks/useAuth';
 
 const Header = () => {
+	const { session, loading } = useAuthSesseion();
+
+	const { handleSignout } = useAuth();
+
+	const onSignout = async (e) => {
+		e.preventDefault();
+		await handleSignout();
+	};
+
 	return (
 		<header className="font-mono flex justify-between py-3 px-6 fixed bg-white shadow-md w-full z-50">
 			<div>
@@ -36,6 +46,34 @@ const Header = () => {
 							</Link>
 						</Button>
 					</li>
+					{session ? (
+						<>
+							<li>
+								<Button variant="gohst" asChild>
+									<button className="text-gray-600" onClick={onSignout}>
+										Logout
+									</button>
+								</Button>
+							</li>
+						</>
+					) : (
+						<>
+							<li>
+								<Button variant="gohst" asChild>
+									<Link href="/auth/login" className="text-gray-600">
+										Login
+									</Link>
+								</Button>
+							</li>
+							<li>
+								<Button variant="gohst" asChild>
+									<Link href="/auth/signup" className="text-gray-600">
+										Signup
+									</Link>
+								</Button>
+							</li>
+						</>
+					)}
 				</ul>
 			</nav>
 		</header>

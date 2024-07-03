@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const useAuth = () => {
   const supabase = useSupabaseClient();
@@ -30,7 +30,7 @@ const useAuth = () => {
       if (profileError) {
         setError(profileError.message);
       } else {
-        router.push('/learnings');
+        router.push('/learnings').then(() => router.reload());
       }
     }
   };
@@ -40,13 +40,19 @@ const useAuth = () => {
     if (error) {
       setError(error.message);
     } else {
-      router.push('/learnings');
+      router.push('/learnings').then(() => router.reload());
     }
+  };
+
+  const handleSignout = async () => {
+    await supabase.auth.signOut();
+    router.reload();
   };
 
   return {
     handleSignup,
     handleLogin,
+    handleSignout,
     error,
   }
 }
