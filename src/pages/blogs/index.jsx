@@ -81,11 +81,10 @@ export async function getServerSideProps() {
 		if (!response.ok) {
 			throw new Error(`${response.statusText}`);
 		}
-		console.log('response =>', response);
 		const data = await response.json();
 		return {
 			props: {
-				metas: data,
+				metas: data.metadatas,
 			},
 		};
 	} catch (error) {

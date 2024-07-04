@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const Card = ({ meta }) => {
-	console.log('Article =>', meta.image.file);
 	return (
 		<>
 			<article className="h-full">
@@ -11,7 +10,7 @@ const Card = ({ meta }) => {
 					<div className="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
 						<div className="relative">
 							<Image
-								src={meta.image.file.url}
+								src={meta.image_url}
 								alt={meta.title}
 								width={400}
 								height={300}
