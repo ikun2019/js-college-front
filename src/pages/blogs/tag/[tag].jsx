@@ -43,7 +43,7 @@ const TagPage = ({ metas, filteredMetas, tag }) => {
 							onPagenatedMetasChange={handlePaginatedMetasChange}
 						/>
 					</div>
-					<Sidebar metas={metas} />
+					<Sidebar metas={metas.metadatas} />
 				</section>
 			</div>
 		</>
@@ -59,6 +59,7 @@ export async function getServerSideProps(context) {
 		]);
 		const tagData = await tagResponse.json();
 		const allData = await allResponse.json();
+
 		return {
 			props: {
 				metas: allData,
