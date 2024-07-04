@@ -13,6 +13,7 @@ import SinglePagenationComponent from '@/components/common/SinglePaginationCompo
 
 const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 	console.log('ArticlePage =>', allBlogs);
+	console.log('content =>', content);
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
@@ -49,7 +50,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 									))}
 							</div>
 							<ReactMarkdown
-								children={content.markdown.parent}
+								children={content.markdown}
 								components={{
 									h2(props) {
 										return (
@@ -104,7 +105,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 					</div>
 
 					{/* Sidebar */}
-					<Sidebar metas={allBlogs} />
+					<Sidebar metas={allBlogs.metadatas} />
 				</section>
 			</div>
 		</>
@@ -114,7 +115,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 export async function getStaticPaths() {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
 	const blogs = await response.json();
-	const slugs = blogs.map((blog) => blog.slug);
+	const slugs = blogs.metadatas.map((blog) => blog.slug);
 	const params = slugs.map((slug) => ({ params: { slug: slug } }));
 	return {
 		paths: params,
@@ -132,12 +133,14 @@ export async function getStaticProps(context) {
 		}
 		const data = await response.json();
 
+		console.log('data =>', data);
+
 		const allBlogsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
 		if (!allBlogsResponse.ok) {
 			throw new Error(`Error: ${allBlogsResponse.statusText}`);
 		}
 		const allBlogs = await allBlogsResponse.json();
-		const allSlugs = allBlogs.map((blog) => blog.slug);
+		const allSlugs = allBlogs.metadatas.map((blog) => blog.slug);
 		const currentIndex = allSlugs.indexOf(slug);
 		const nextSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : null;
 		const prevSlug = currentIndex < allSlugs.length - 1 ? allSlugs[currentIndex + 1] : null;
