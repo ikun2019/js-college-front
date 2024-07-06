@@ -3,9 +3,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Sidebar from '@/components/learnings/Sidebar';
 
+// ライブラリのインポート
+import ReactMarkdown from 'react-markdown';
+
 const index = ({ parentMetadata, childMetadatas }) => {
 	console.log('Learnings Slug Page');
-
+	console.log('parentMetadata =>', parentMetadata);
 	return (
 		<>
 			<Head>
@@ -19,6 +22,59 @@ const index = ({ parentMetadata, childMetadatas }) => {
 					<div className="w-full lg:w-3/4 px-6">
 						<div className="bg-white p-6 rounded-lg shadow-lg">
 							<h1 className="text-3xl font-bold mb-6 font-serif">{parentMetadata.title}</h1>
+							{/* TODO: delete */}
+							<p>{parentMetadata.content}</p>
+							{/* <ReactMarkdown
+								children={parentMetadata.content}
+								components={{
+									h2(props) {
+										return (
+											<h2 className="text-2xl border-b-4 border-gray-500 pl-4 mb-4">
+												{props.children}
+											</h2>
+										);
+									},
+									h3(props) {
+										return (
+											<h3 className="text-xl border-l-4 border-gray-500 pl-4 mb-4 mt-3">
+												{props.children}
+											</h3>
+										);
+									},
+									p(paragraph) {
+										const { node } = paragraph;
+										if (node.children[0].tagName === 'img') {
+											const image = node.children[0];
+											return (
+												<div className="relative w-full">
+													<img
+														src={image.properties.src}
+														alt={image.properties.alt}
+														className="object-cover"
+													/>
+												</div>
+											);
+										}
+										return <p>{paragraph.children}</p>;
+									},
+									code(props) {
+										const { children, className } = props;
+										const language = className.split('-')[1];
+										return language ? (
+											<SyntaxHighlighter
+												PreTag="div"
+												children={String(children).replace(/\n$/, '')}
+												language={language}
+												style={dracula}
+												customStyle={{ fontSize: '0.8em' }}
+											/>
+										) : (
+											<code className={`${className} text-sm`}>{children}</code>
+										);
+									},
+								}}
+								className="text-gray-700 mb-4"
+							></ReactMarkdown> */}
 							<ul>
 								{childMetadatas.map((item, index) => (
 									<li key={index} className="mb-3">
@@ -50,11 +106,12 @@ export async function getServerSideProps(context) {
 			throw new Error(`${response.statusText}`);
 		}
 		const data = await response.json();
+		console.log('data =>', data.metadata.title);
 
 		return {
 			props: {
 				parentMetadata: data.metadata,
-				childMetadatas: data.nestedMetadatas[0].items.reverse(),
+				childMetadatas: data.nestedMetadatas.reverse(),
 			},
 		};
 	} catch (error) {

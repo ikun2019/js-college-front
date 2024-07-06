@@ -11,7 +11,7 @@ const Card = ({ meta }) => {
 						<div className="relative">
 							<Image
 								src={meta.image_url}
-								alt={meta.title}
+								alt={meta.image_name}
 								width={400}
 								height={300}
 								className="w-full h-40 object-cover rounded-t-lg"

@@ -26,12 +26,13 @@ const LearningPage = ({ metas }) => {
 			<Head>
 				<meta name="robots" content="noindex,nofollow" />
 			</Head>
-			<div class="container mx-auto px-6 py-8">
+			<div className="container mx-auto px-6 py-8">
 				{/* ヒーローセクション */}
 				<section className="mb-12">
 					<div className="relative">
 						<Image
 							src="/learning_hero.webp"
+							alt="LearningページのHero画像"
 							width={1200}
 							height={400}
 							className="w-full h-64 object-cover rounded-lg"
@@ -82,7 +83,7 @@ export async function getServerSideProps() {
 		const data = await response.json();
 		return {
 			props: {
-				metas: data,
+				metas: data.metadatas,
 			},
 		};
 	} catch (error) {

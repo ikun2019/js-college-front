@@ -10,8 +10,8 @@ const Card = ({ meta }) => {
 					<div className="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
 						<div className="relative">
 							<Image
-								src={meta.image.file.url}
-								alt={meta.title}
+								src={meta.image_url}
+								alt={meta.image_name}
 								width={400}
 								height={300}
 								className="w-full h-40 object-cover rounded-t-lg"
