@@ -98,13 +98,13 @@ export async function getStaticPaths() {
 	let paths = [];
 	let slugData = {};
 
-	for (const learning of learnings) {
+	for (const learning of learnings.metadatas) {
 		const slug = learning.slug;
 		const childResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`);
 		const childLearnings = await childResponse.json();
-		slugData[slug] = childLearnings.nestedMetadatas[0].items;
+		slugData[slug] = childLearnings.nestedMetadatas;
 		if (childLearnings.nestedMetadatas && childLearnings.nestedMetadatas.length > 0) {
-			for (const child of childLearnings.nestedMetadatas[0].items) {
+			for (const child of childLearnings.nestedMetadatas) {
 				paths.push({ params: { slug: slug, childSlug: child.slug } });
 			}
 		}
@@ -136,6 +136,8 @@ export async function getStaticProps(context) {
 		throw new Error(`No data found for childSlug: ${childSlug}`);
 	}
 	const childCourse = await childResponse.json();
+
+	console.log('childCourse =>', childCourse);
 
 	const allChildSlugs = childLearnings.map((item) => item.slug).reverse();
 	const currentIndex = allChildSlugs.indexOf(childSlug);
