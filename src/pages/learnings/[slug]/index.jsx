@@ -22,9 +22,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 					<div className="w-full lg:w-3/4 px-6">
 						<div className="bg-white p-6 rounded-lg shadow-lg">
 							<h1 className="text-3xl font-bold mb-6 font-serif">{parentMetadata.title}</h1>
-							{/* TODO: delete */}
-							<p>{parentMetadata.content}</p>
-							{/* <ReactMarkdown
+							<ReactMarkdown
 								children={parentMetadata.content}
 								components={{
 									h2(props) {
@@ -74,7 +72,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 									},
 								}}
 								className="text-gray-700 mb-4"
-							></ReactMarkdown> */}
+							></ReactMarkdown>
 							<ul>
 								{childMetadatas.map((item, index) => (
 									<li key={index} className="mb-3">
