@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const Card = ({ meta }) => {
+	console.log('meta =>', meta);
 	return (
 		<>
 			<article className="h-full">
