@@ -12,6 +12,8 @@ import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 // コンポーネントのインポート
 import SinglePagenationComponent from '../../../components/common/SinglePaginationComponent';
 import SidebarCourse from '../../../components/learnings/SidebarCourse';
+import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
+import { Button } from '@/components/ui/button';
 
 // hooksのインポート
 import useAuthSesseion from '@/hooks/useAuthSession';
@@ -24,6 +26,13 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 			router.push('/auth/login');
 		}
 	}, [user, router]);
+
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'Learning', href: '/learning' },
+		{ label: slug, href: `/${slug}` },
+		{ label: metadata.slug, href: `/${metadata.slug}` },
+	];
 	return (
 		<>
 			<Head>
@@ -36,6 +45,10 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 					{/* Learning Content */}
 					<div className="w-full lg:w-3/4 px-6">
 						<div className="bg-white p-6 rounded-lg shadow-lg">
+							<div>
+								{/* パンくずリスト */}
+								<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+							</div>
 							<h1 className="text-2xl font-bold mb-2 mt-6">{metadata.title}</h1>
 							<ReactMarkdown
 								children={markdown}
@@ -87,7 +100,11 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 									},
 								}}
 							/>
-							<button type="submit">complete</button>
+							{user && (
+								<div className="mt-4 text-center">
+									<Button variant="outline">Complete</Button>
+								</div>
+							)}
 							<SinglePagenationComponent
 								page={`/learnings/${slug}`}
 								prevSlug={prevSlug}

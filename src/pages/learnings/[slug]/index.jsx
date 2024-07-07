@@ -2,12 +2,19 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Sidebar from '../../../components/learnings/Sidebar';
+import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
 
 const index = ({ parentMetadata, childMetadatas }) => {
 	console.log('Learnings Slug Page');
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'Learning', href: '/learning' },
+		{ label: parentMetadata.slug, href: `/${parentMetadata.slug}` },
+	];
+
 	return (
 		<>
 			<Head>
@@ -20,6 +27,10 @@ const index = ({ parentMetadata, childMetadatas }) => {
 					{/* Learnings Page */}
 					<div className="w-full lg:w-3/4 px-6">
 						<div className="bg-white p-8 rounded-lg shadow-lg">
+							<div>
+								{/* パンくずリスト */}
+								<BreadcrumbComponent breadcrumbs={breadcrumbs} />
+							</div>
 							<h1 className="text-4xl font-bold mb-6 text-gray-800">{parentMetadata.title}</h1>
 							<ReactMarkdown
 								children={parentMetadata.content}
