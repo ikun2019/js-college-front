@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
 
+import useAuth from '../../hooks/useAuth';
+import GmailSignupButton from './GmailSignupButton';
+import GithubSignupButton from './GithubSignupButton';
+
 const Auth = ({ signup }) => {
-	const { error, handleLogin, handleSignup } = useAuth();
+	const { error, handleLogin, handleSignup, handleGmailLogin, handleGitHubLogin } = useAuth();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -18,6 +21,16 @@ const Auth = ({ signup }) => {
 		handleSignup(email, password, name);
 	};
 
+	const onGmail = (e) => {
+		e.preventDefault();
+		handleGmailLogin();
+	};
+
+	const onGithub = (e) => {
+		e.preventDefault();
+		handleGitHubLogin();
+	};
+
 	return (
 		<>
 			<div className="bg-gray-100 flex items-center justify-center h-screen">
@@ -30,7 +43,7 @@ const Auth = ({ signup }) => {
 					<form>
 						{signup && (
 							<div className="mb-4">
-								<label for="name" className="block text-sm font-medium text-gray-700">
+								<label htmlFor="name" className="block text-sm font-medium text-gray-700">
 									ニックネーム
 								</label>
 								<input
@@ -45,7 +58,7 @@ const Auth = ({ signup }) => {
 							</div>
 						)}
 						<div className="mb-4">
-							<label for="email" className="block text-sm font-medium text-gray-700">
+							<label htmlFor="email" className="block text-sm font-medium text-gray-700">
 								メールアドレス
 							</label>
 							<input
@@ -59,7 +72,7 @@ const Auth = ({ signup }) => {
 							/>
 						</div>
 						<div className="mb-6">
-							<label for="password" className="block text-sm font-medium text-gray-700">
+							<label htmlFor="password" className="block text-sm font-medium text-gray-700">
 								パスワード
 							</label>
 							<input
@@ -90,17 +103,30 @@ const Auth = ({ signup }) => {
 							</button>
 						)}
 					</form>
+					{!signup && (
+						<p className="mt-4 text-sm">
+							<Link href="#" className="text-indigo-600 hover:text-indigo-500 text-sm text-right">
+								パスワードをお忘れですか？
+							</Link>
+						</p>
+					)}
+					<p className="mt-4">
+						<GmailSignupButton onGmail={onGmail} signup={signup} />
+					</p>
+					<p className="mt-4">
+						<GithubSignupButton onGithub={onGithub} signup={signup} />
+					</p>
 					{signup ? (
-						<p class="mt-4 text-center text-sm text-gray-600">
+						<p className="mt-4 text-center text-sm text-gray-600">
 							すでにアカウントをお持ちですか？{' '}
-							<Link href="/auth/login" class="text-indigo-600 hover:text-indigo-500">
+							<Link href="/auth/login" className="text-indigo-600 hover:text-indigo-500">
 								ログイン
 							</Link>
 						</p>
 					) : (
-						<p class="mt-4 text-center text-sm text-gray-600">
+						<p className="mt-4 text-center text-sm text-gray-600">
 							アカウントをお持ちではないですか？{' '}
-							<Link href="/auth/signup" class="text-indigo-600 hover:text-indigo-500">
+							<Link href="/auth/signup" className="text-indigo-600 hover:text-indigo-500">
 								サインアップ
 							</Link>
 						</p>

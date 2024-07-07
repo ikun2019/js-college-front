@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 
-import Layout from '@/components/layouts/Layout';
+import Layout from '../components/layouts/Layout';
 
 export default function App({ Component, pageProps }) {
 	const [supabaseClient] = useState(() => createPagesBrowserClient());

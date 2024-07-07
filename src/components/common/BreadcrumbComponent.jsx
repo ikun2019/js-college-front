@@ -6,7 +6,7 @@ import {
 	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '../ui/breadcrumb';
 
 const BreadcrumbComponent = ({ breadcrumbs }) => {
 	console.log('breadcrumbs =>', breadcrumbs);

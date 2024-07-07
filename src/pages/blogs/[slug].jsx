@@ -7,9 +7,9 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // コンポーネントのインポート
-import Sidebar from '@/components/blogs/Sidebar';
-import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import SinglePagenationComponent from '@/components/common/SinglePaginationComponent';
+import Sidebar from '../../components/blogs/Sidebar';
+import BreadcrumbComponent from '../../components/common/BreadcrumbComponent';
+import SinglePagenationComponent from '../../components/common/SinglePaginationComponent';
 
 const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 	console.log('ArticlePage =>', allBlogs);

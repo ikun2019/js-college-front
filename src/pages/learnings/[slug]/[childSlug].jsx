@@ -9,8 +9,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // コンポーネントのインポート
-import SinglePagenationComponent from '@/components/common/SinglePaginationComponent';
-import SidebarCourse from '@/components/learnings/SidebarCourse';
+import SinglePagenationComponent from '../../../components/common/SinglePaginationComponent';
+import SidebarCourse from '../../../components/learnings/SidebarCourse';
 
 const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
 	return (

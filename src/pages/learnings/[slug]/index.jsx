@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import Sidebar from '@/components/learnings/Sidebar';
+import Sidebar from '../../../components/learnings/Sidebar';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';

@@ -38,7 +38,7 @@ export default function Home() {
 						<ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
 							<li className="flex flex-col items-center">
 								<Image
-									src="/top/study.svg"
+									src="/top/icons/study.svg"
 									width={150}
 									height={150}
 									className="bg-white"
@@ -51,7 +51,7 @@ export default function Home() {
 							</li>
 							<li className="flex flex-col items-center">
 								<Image
-									src="/top/deploy.svg"
+									src="/top/icons/deploy.svg"
 									width={150}
 									height={150}
 									className="bg-white"
@@ -65,7 +65,7 @@ export default function Home() {
 							</li>
 							<li className="flex flex-col items-center">
 								<Image
-									src="/top/marketing.svg"
+									src="/top/icons/marketing.svg"
 									width={150}
 									height={150}
 									className="bg-white"

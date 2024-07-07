@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import fetch from 'node-fetch';
 
-import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import Cards from '@/components/blogs/Cards';
-import PaginationComponent from '@/components/common/PaginationComponent';
-import Sidebar from '@/components/blogs/Sidebar';
+import BreadcrumbComponent from '../../../components/common/BreadcrumbComponent';
+import Cards from '../../../components/blogs/Cards';
+import PaginationComponent from '../../../components/common/PaginationComponent';
+import Sidebar from '../../../components/blogs/Sidebar';
 
 const TagPage = ({ metas, filteredMetas, tag }) => {
 	const breadcrumbs = [

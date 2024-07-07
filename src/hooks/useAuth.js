@@ -7,6 +7,7 @@ const useAuth = () => {
   const router = useRouter();
   const [error, setError] = useState(null);
 
+  // * サインアップ
   const handleSignup = async (email, password, name) => {
     setError(null);
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
@@ -35,6 +36,7 @@ const useAuth = () => {
     }
   };
 
+  // * Emailログイン
   const handleLogin = async (email, password) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
@@ -44,15 +46,53 @@ const useAuth = () => {
     }
   };
 
+  // * Gmailログイン
+  const handleGmailLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/learnings`
+      }
+    });
+    if (error) {
+      setError(error.message);
+    }
+  };
+
+  // * GitHubログイン
+  const handleGitHubLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: `${window.location.origin}/learnings`
+      }
+    });
+    if (error) {
+      setError(error.message);
+    }
+  };
+
+  // * サインアウト
   const handleSignout = async () => {
     await supabase.auth.signOut();
     router.reload();
   };
 
+  // * パスワードリセット
+  const handleResetPassword = async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+      setError(error.message);
+    };
+  };
+
   return {
     handleSignup,
+    handleGmailLogin,
+    handleGitHubLogin,
     handleLogin,
     handleSignout,
+    handleResetPassword,
     error,
   }
 }

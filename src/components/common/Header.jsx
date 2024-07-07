@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 
 import { Button } from '../ui/button';
-import useAuthSesseion from '@/hooks/useAuthSession';
-import useAuth from '@/hooks/useAuth';
+import useAuthSesseion from '../../hooks/useAuthSession';
+import useAuth from '../../hooks/useAuth';
 
 const Header = () => {
 	const { session, loading } = useAuthSesseion();
