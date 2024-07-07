@@ -13,12 +13,16 @@ const useAuth = () => {
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { displayName: name }
+      }
     });
 
     if (signUpError) {
       setError(signUpError.message);
       return;
     }
+    router.push('/learnings').then(() => router.reload());
 
     const user = signUpData?.user;
 

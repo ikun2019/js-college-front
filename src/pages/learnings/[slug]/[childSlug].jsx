@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import fs from 'fs';
 import path from 'path';
+import { useRouter } from 'next/router';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
@@ -12,7 +13,17 @@ import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import SinglePagenationComponent from '../../../components/common/SinglePaginationComponent';
 import SidebarCourse from '../../../components/learnings/SidebarCourse';
 
+// hooksのインポート
+import useAuthSesseion from '@/hooks/useAuthSession';
+
 const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
+	const router = useRouter();
+	const { user } = useAuthSesseion();
+	useEffect(() => {
+		if (!user && metadata.premium) {
+			router.push('/auth/login');
+		}
+	}, [user, router]);
 	return (
 		<>
 			<Head>
@@ -27,7 +38,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 						<div className="bg-white p-6 rounded-lg shadow-lg">
 							<h1 className="text-2xl font-bold mb-2 mt-6">{metadata.title}</h1>
 							<ReactMarkdown
-								children={markdown.parent}
+								children={markdown}
 								components={{
 									h2(props) {
 										return (

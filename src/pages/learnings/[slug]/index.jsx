@@ -8,7 +8,6 @@ import ReactMarkdown from 'react-markdown';
 
 const index = ({ parentMetadata, childMetadatas }) => {
 	console.log('Learnings Slug Page');
-	console.log('parentMetadata =>', parentMetadata);
 	return (
 		<>
 			<Head>
@@ -81,8 +80,16 @@ const index = ({ parentMetadata, childMetadatas }) => {
 										<div className="bg-gray-100 p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
 											<Link
 												href={`/learnings/${parentMetadata.slug}/${item.slug}`}
-												className="cursor-pointer"
+												className={`cursor-pointer ${item.premium && 'disabled'}`}
 											>
+												<div className="flex justify-between">
+													<span className="text-gray-600 text-sm">{`Lesson ${index + 1}`}</span>
+													{!item.premium && (
+														<span className="inline-flex items-center justify-center px-3 py-1 text-sm font-bold leading-none text-white bg-red-700 rounded-full shadow-lg border-2 border-red-900">
+															Free
+														</span>
+													)}
+												</div>
 												<h2 className="text-xl font-bold mb-2 text-gray-700">{item.title}</h2>
 												<p className="text-gray-600">{item.description}</p>
 											</Link>
