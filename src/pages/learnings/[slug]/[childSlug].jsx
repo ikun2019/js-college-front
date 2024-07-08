@@ -20,19 +20,26 @@ import useAuthSesseion from '@/hooks/useAuthSession';
 
 const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
 	const router = useRouter();
-	const { user } = useAuthSesseion();
+	const { user, loading } = useAuthSesseion();
 	useEffect(() => {
-		if (!user) {
+		if (!loading && !user) {
 			router.push('/auth/signin');
 		}
-	}, [user, router]);
+	}, [user, loading, router]);
+	if (loading) {
+		return <div className="container mx-auto px-6 py-8">Loading...</div>;
+	}
+	if (!user) {
+		return null;
+	}
 
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'Learning', href: '/learning' },
+		{ label: 'Learning', href: '/learnings' },
 		{ label: slug, href: `/${slug}` },
 		{ label: metadata.slug, href: `/${metadata.slug}` },
 	];
+
 	return (
 		<>
 			<Head>
