@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { Button } from '../ui/button';
 import useAuthSesseion from '../../hooks/useAuthSession';
 import useAuth from '../../hooks/useAuth';
 
 const Header = () => {
-	const { session, loading } = useAuthSesseion();
-
+	const { user } = useAuthSesseion();
 	const { handleSignout } = useAuth();
+
+	const [isOpen, setIsOpen] = useState(false);
+	const menuRef = useRef(null);
+	const handleClickOutside = (event) => {
+		if (menuRef.current && !menuRef.current.contains(event.target)) {
+			setIsOpen(false);
+		}
+	};
+	useEffect(() => {
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.addEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
+
+	const toggleMenu = () => {
+		setIsOpen(!isOpen);
+	};
 
 	const onSignout = async (e) => {
 		e.preventDefault();
@@ -46,29 +64,45 @@ const Header = () => {
 							</Link>
 						</Button>
 					</li>
-					{session ? (
+					{user ? (
 						<>
 							<li>
-								<Button variant="gohst" asChild>
-									<button className="text-gray-600" onClick={onSignout}>
-										Logout
-									</button>
-								</Button>
+								<div className="relative">
+									<Image
+										src="/header/user.svg"
+										alt="ユーザーアイコン"
+										width={15}
+										height={15}
+										className="w-7 h-7 rounded-full cursor-pointer outline-thin"
+										onClick={toggleMenu}
+									/>
+									{isOpen && (
+										<ul
+											className="absolute block mt-2 right-0 bg-gray-100 w-48 text-gray-600 rounded-sm shadow-lg"
+											ref={menuRef}
+										>
+											<li className="block hover:bg-gray-200">
+												<Link href="#" className="block w-full px-4 py-2 text-center">
+													Profile
+												</Link>
+											</li>
+											<hr />
+											<li className="block hover:bg-gray-200">
+												<button className="block w-full px-4 py-2" onClick={onSignout}>
+													SignOut
+												</button>
+											</li>
+										</ul>
+									)}
+								</div>
 							</li>
 						</>
 					) : (
 						<>
 							<li>
 								<Button variant="gohst" asChild>
-									<Link href="/auth/login" className="text-gray-600">
-										Login
-									</Link>
-								</Button>
-							</li>
-							<li>
-								<Button variant="gohst" asChild>
-									<Link href="/auth/signup" className="text-gray-600">
-										Signup
+									<Link href="/auth/signin" className="text-gray-100 font-bold bg-blue-500">
+										SignIn
 									</Link>
 								</Button>
 							</li>

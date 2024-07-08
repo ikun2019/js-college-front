@@ -41,7 +41,7 @@ const useAuth = () => {
   };
 
   // * Emailログイン
-  const handleLogin = async (email, password) => {
+  const handleSignin = async (email, password) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       setError(error.message);
@@ -51,7 +51,7 @@ const useAuth = () => {
   };
 
   // * Gmailログイン
-  const handleGmailLogin = async () => {
+  const handleGmailSignin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -64,7 +64,7 @@ const useAuth = () => {
   };
 
   // * GitHubログイン
-  const handleGitHubLogin = async () => {
+  const handleGitHubSignin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
@@ -92,9 +92,9 @@ const useAuth = () => {
 
   return {
     handleSignup,
-    handleGmailLogin,
-    handleGitHubLogin,
-    handleLogin,
+    handleGmailSignin,
+    handleGitHubSignin,
+    handleSignin,
     handleSignout,
     handleResetPassword,
     error,

@@ -6,14 +6,14 @@ import GmailSignupButton from './GmailSignupButton';
 import GithubSignupButton from './GithubSignupButton';
 
 const Auth = ({ signup }) => {
-	const { error, handleLogin, handleSignup, handleGmailLogin, handleGitHubLogin } = useAuth();
+	const { error, handleSignin, handleSignup, handleGmailSignin, handleGitHubSignin } = useAuth();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const onLogin = (e) => {
+	const onSignin = (e) => {
 		e.preventDefault();
-		handleLogin(email, password);
+		handleSignin(email, password);
 	};
 
 	const onSignup = (e) => {
@@ -23,12 +23,12 @@ const Auth = ({ signup }) => {
 
 	const onGmail = (e) => {
 		e.preventDefault();
-		handleGmailLogin();
+		handleGmailSignin();
 	};
 
 	const onGithub = (e) => {
 		e.preventDefault();
-		handleGitHubLogin();
+		handleGitHubSignin();
 	};
 
 	return (
@@ -97,7 +97,7 @@ const Auth = ({ signup }) => {
 							<button
 								type="submit"
 								className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-								onClick={onLogin}
+								onClick={onSignin}
 							>
 								ログイン
 							</button>

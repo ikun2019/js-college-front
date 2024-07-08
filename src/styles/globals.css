@@ -82,3 +82,7 @@
   pointer-events: none;
   color: #a0a0a0;
 }
+
+.outline-thin {
+  outline: 2px solid #7e848e;
+}

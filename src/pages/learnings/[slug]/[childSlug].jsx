@@ -22,8 +22,8 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 	const router = useRouter();
 	const { user } = useAuthSesseion();
 	useEffect(() => {
-		if (!user && metadata.premium) {
-			router.push('/auth/login');
+		if (!user) {
+			router.push('/auth/signin');
 		}
 	}, [user, router]);
 
