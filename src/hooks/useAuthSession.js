@@ -1,22 +1,22 @@
-import { useSession, useUser } from '@supabase/auth-helpers-react';
 import { useEffect, useState } from 'react';
+import { useSession, useUser } from '@supabase/auth-helpers-react';
 
-const useAuthSesseion = () => {
+const useAuthSession = () => {
   const session = useSession();
   const user = useUser();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (session !== undefined) {
+    if (session) {
       setLoading(false);
     }
-  }, [session]);
+  }, [user, session]);
 
   return {
     session,
     user,
     loading,
   }
-};
+}
 
-export default useAuthSesseion;
+export default useAuthSession;

@@ -21,8 +21,9 @@ import useAuthSesseion from '@/hooks/useAuthSession';
 const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
 	const router = useRouter();
 	const { user, loading } = useAuthSesseion();
+
 	useEffect(() => {
-		if (!loading && !user) {
+		if (!user) {
 			router.push('/auth/signin');
 		}
 	}, [user, loading, router]);

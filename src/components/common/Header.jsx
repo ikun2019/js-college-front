@@ -82,7 +82,7 @@ const Header = () => {
 											ref={menuRef}
 										>
 											<li className="block hover:bg-gray-200">
-												<Link href="#" className="block w-full px-4 py-2 text-center">
+												<Link href="/auth/profile" className="block w-full px-4 py-2 text-center">
 													Profile
 												</Link>
 											</li>
