@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import useAuthSesseion from '@/hooks/useAuthSession';
+import fetchUserProfile from '@/lib/fetchUserProfile';
 
 const Profile = () => {
 	const router = useRouter();
@@ -17,7 +18,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		if (loading) return;
-		if (!session) {
+		if (!user) {
 			router.push('/auth/signin');
 		} else {
 			fetchProfile();
@@ -25,15 +26,8 @@ const Profile = () => {
 	}, [session, user, loading]);
 
 	const fetchProfile = async () => {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/profile`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${session.access_token}`,
-			},
-		});
-		const userProfile = await response.json();
-		setProfile(userProfile);
+		const profileData = await fetchUserProfile(session.access_token);
+		setProfile(profileData);
 	};
 
 	if (loading) {
@@ -63,11 +57,11 @@ const Profile = () => {
 							<tbody>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Name</td>
-									<td className="px-5 py-2">{profile.user_metadata?.displayName}</td>
+									<td className="px-5 py-2">{profile.name}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Email</td>
-									<td className="px-4 py-2">{profile.email}</td>
+									<td className="px-4 py-2">{user.email}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Subscription</td>

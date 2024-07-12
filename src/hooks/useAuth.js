@@ -42,7 +42,7 @@ const useAuth = () => {
 
   // * Emailログイン
   const handleSignin = async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       setError(error.message);
     } else {
@@ -52,7 +52,7 @@ const useAuth = () => {
 
   // * Gmailログイン
   const handleGmailSignin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/learnings`

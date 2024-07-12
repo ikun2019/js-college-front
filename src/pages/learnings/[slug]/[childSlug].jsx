@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import fs from 'fs';
-import path from 'path';
 import { useRouter } from 'next/router';
 
 // ライブラリのインポート
@@ -17,29 +15,37 @@ import { Button } from '@/components/ui/button';
 
 // hooksのインポート
 import useAuthSesseion from '@/hooks/useAuthSession';
+import fetchUserProfile from '@/lib/fetchUserProfile';
 
 const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
-	const router = useRouter();
-	const { user, loading } = useAuthSesseion();
-
-	useEffect(() => {
-		if (!user) {
-			router.push('/auth/signin');
-		}
-	}, [user, loading, router]);
-	if (loading) {
-		return <div className="container mx-auto px-6 py-8">Loading...</div>;
-	}
-	if (!user) {
-		return null;
-	}
-
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Learning', href: '/learnings' },
 		{ label: slug, href: `/${slug}` },
 		{ label: metadata.slug, href: `/${metadata.slug}` },
 	];
+
+	const router = useRouter();
+	const [profile, setProfile] = useState(null);
+	const { user, session, loading } = useAuthSesseion();
+
+	useEffect(() => {
+		if (!loading && session) {
+			const profileData = fetchUserProfile(session.access_token);
+			setProfile(profileData);
+		}
+	}, [loading, session]);
+
+	useEffect(() => {
+		if (metadata.premium && profile && !profile.is_subscribed) {
+			alert('プレミアム会員へのアップグレードが必要です');
+			router.push('/auth/profile');
+		}
+	}, [profile, router]);
+
+	if (loading || !profile) {
+		return <div className="container mx-auto px-6 py-8">Loading...</div>;
+	}
 
 	return (
 		<>
@@ -127,64 +133,33 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 	);
 };
 
-export async function getStaticPaths() {
-	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`);
-	const learnings = await response.json();
-
-	let paths = [];
-	let slugData = {};
-
-	for (const learning of learnings.metadatas) {
-		const slug = learning.slug;
-		const childResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`);
-		const childLearnings = await childResponse.json();
-		slugData[slug] = childLearnings.nestedMetadatas;
-		if (childLearnings.nestedMetadatas && childLearnings.nestedMetadatas.length > 0) {
-			for (const child of childLearnings.nestedMetadatas) {
-				paths.push({ params: { slug: slug, childSlug: child.slug } });
-			}
-		}
-	}
-
-	fs.writeFileSync(path.join(process.cwd(), 'slugData.json'), JSON.stringify(slugData));
-
-	return {
-		paths: paths,
-		fallback: false,
-	};
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
 	const { slug, childSlug } = context.params;
 
-	const slugDataPath = path.join(process.cwd(), 'slugData.json');
-	const slugData = JSON.parse(fs.readFileSync(slugDataPath, 'utf8'));
-
-	const childLearnings = slugData[slug];
-	if (!childLearnings) {
-		throw new Error(`No data found for slug: ${slug}`);
+	// * slug内のデータを取得
+	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`);
+	if (!response.ok) {
+		throw new Error('Data fetch failed');
 	}
+	const contents = await response.json();
 
+	// * 開いているコンテンツのデータを取得
 	const childResponse = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}/${childSlug}`
 	);
-	if (!childResponse.ok) {
-		throw new Error(`No data found for childSlug: ${childSlug}`);
-	}
-	const childCourse = await childResponse.json();
+	const childContent = await childResponse.json();
 
-	console.log('childCourse =>', childCourse);
-
-	const allChildSlugs = childLearnings.map((item) => item.slug).reverse();
+	// * ページネーションのためのデータ取得
+	const allChildSlugs = contents.nestedMetadatas.map((item) => item.slug).reverse();
 	const currentIndex = allChildSlugs.indexOf(childSlug);
 	const prevSlug = currentIndex > 0 ? allChildSlugs[currentIndex - 1] : null;
 	const nextSlug = currentIndex < allChildSlugs.length - 1 ? allChildSlugs[currentIndex + 1] : null;
 
 	return {
 		props: {
-			metadata: childCourse.metadata,
-			markdown: childCourse.markdown,
-			headings: childCourse.headings,
+			metadata: childContent.metadata,
+			markdown: childContent.markdown,
+			headings: childContent.headings,
 			prevSlug,
 			nextSlug,
 			slug,

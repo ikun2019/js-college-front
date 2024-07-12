@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+
+import useAuthSession from '@/hooks/useAuthSession';
+import fetchUserProfile from '@/lib/fetchUserProfile';
+
 import Sidebar from '../../../components/learnings/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
+import { useRouter } from 'next/router';
 
 const index = ({ parentMetadata, childMetadatas }) => {
 	console.log('Learnings Slug Page');
@@ -14,6 +19,30 @@ const index = ({ parentMetadata, childMetadatas }) => {
 		{ label: 'Learning', href: '/learning' },
 		{ label: parentMetadata.slug, href: `/${parentMetadata.slug}` },
 	];
+
+	const router = useRouter();
+	const [profile, setProfile] = useState(null);
+	const { user, session, loading } = useAuthSession();
+
+	useEffect(() => {
+		if (!loading) {
+			if (!user) {
+				router.push('/auth/signin');
+			} else if (session) {
+				fetchProfile();
+			}
+		}
+	}, [user, session, router, loading]);
+
+	// * ユーザーのプロフィールを取得する関数
+	const fetchProfile = async () => {
+		const profileData = await fetchUserProfile(session.access_token);
+		setProfile(profileData);
+	};
+
+	if (loading || !profile) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<>
@@ -91,14 +120,18 @@ const index = ({ parentMetadata, childMetadatas }) => {
 										<div className="bg-gray-100 p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
 											<Link
 												href={`/learnings/${parentMetadata.slug}/${item.slug}`}
-												className={`cursor-pointer ${item.premium && 'disabled'}`}
+												className={`cursor-pointer ${
+													item.premium && !profile.is_subscribed ? 'disabled' : ''
+												}`}
 											>
 												<div className="flex justify-between">
 													<span className="text-gray-600 text-sm">{`Lesson ${index + 1}`}</span>
-													{!item.premium && (
+													{!item.premium && !profile.is_subscribed ? (
 														<span className="inline-flex items-center justify-center px-3 py-1 text-sm font-bold leading-none text-white bg-red-700 rounded-full shadow-lg border-2 border-red-900">
 															Free
 														</span>
+													) : (
+														''
 													)}
 												</div>
 												<h2 className="text-xl font-bold mb-2 text-gray-700">{item.title}</h2>
@@ -128,7 +161,6 @@ export async function getServerSideProps(context) {
 			throw new Error(`${response.statusText}`);
 		}
 		const data = await response.json();
-		console.log('data =>', data.metadata.title);
 
 		return {
 			props: {

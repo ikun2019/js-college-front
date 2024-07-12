@@ -7,7 +7,10 @@ const useAuthSession = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (session) {
+    console.log('session', session);
+    console.log('user', user);
+
+    if (session && user) {
       setLoading(false);
     }
   }, [user, session]);
