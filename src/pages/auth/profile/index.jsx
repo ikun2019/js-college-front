@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 
 import { Button } from '@/components/ui/button';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
+import Spinner from '@/components/common/Spinner';
+
 import useAuthSesseion from '@/hooks/useAuthSession';
 
 const Profile = () => {
@@ -21,7 +23,7 @@ const Profile = () => {
 	}, [loading, user, router]);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	if (!user) {
