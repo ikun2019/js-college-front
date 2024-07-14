@@ -1,38 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { Button } from '@/components/ui/button';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import useAuthSesseion from '@/hooks/useAuthSession';
-import fetchUserProfile from '@/lib/fetchUserProfile';
 
 const Profile = () => {
 	const router = useRouter();
-	const { user, session, loading } = useAuthSesseion();
-	const [profile, setProfile] = useState({});
+	const { profile, user, loading } = useAuthSesseion();
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'profile', href: '/auth/profile' },
 	];
 
 	useEffect(() => {
-		if (loading) return;
-		if (!user) {
-			router.push('/auth/signin');
-		} else {
-			fetchProfile();
+		if (!loading && !user) {
+			router.push('/learnings');
 		}
-	}, [session, user, loading]);
-
-	const fetchProfile = async () => {
-		const profileData = await fetchUserProfile(session.access_token);
-		setProfile(profileData);
-	};
+	}, [loading, user, router]);
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
+
+	if (!user) {
+		return null;
+	}
+
 	return (
 		<>
 			<Head>

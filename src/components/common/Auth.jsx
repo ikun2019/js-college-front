@@ -105,7 +105,10 @@ const Auth = ({ signup }) => {
 					</form>
 					{!signup && (
 						<p className="mt-4 text-sm">
-							<Link href="#" className="text-indigo-600 hover:text-indigo-500 text-sm text-right">
+							<Link
+								href="/auth/send-email"
+								className="text-indigo-600 hover:text-indigo-500 text-sm text-right"
+							>
 								パスワードをお忘れですか？
 							</Link>
 						</p>
