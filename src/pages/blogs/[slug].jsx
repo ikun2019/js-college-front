@@ -114,10 +114,14 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 };
 
 export async function getStaticPaths() {
+	let params = [];
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
 	const blogs = await response.json();
-	const slugs = blogs.metadatas.map((blog) => blog.slug);
-	const params = slugs.map((slug) => ({ params: { slug: slug } }));
+	if (blogs && Array.isArray(blogs)) {
+		params = blogs.metadatas.map((blog) => ({
+			params: { slug: blog.slug },
+		}));
+	}
 	return {
 		paths: params,
 		fallback: false,
