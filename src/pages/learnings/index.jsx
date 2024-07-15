@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Head from 'next/head';
-import fetch from 'node-fetch';
+import Image from 'next/image';
 
+// コンポーネントのインポート
 import BreadcrumbComponent from '../../components/common/BreadcrumbComponent';
-import Sidebar from '@/components/Blogs/Sidebar';
+import Cards from '../../components/learnings/Cards';
+import Sidebar from '../../components/learnings/Sidebar';
 import PaginationComponent from '../../components/common/PaginationComponent';
-import Cards from '../../components/blogs/Cards';
 
-const BlogsPage = ({ metas }) => {
+const LearningPage = ({ metas }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'blogs', href: '/blogs' },
+		{ label: 'Learning', href: '/learning' },
 	];
 
 	const [paginatedMetas, setPaginatedMetas] = useState([]);
@@ -24,22 +24,22 @@ const BlogsPage = ({ metas }) => {
 	return (
 		<>
 			<Head>
-				<meta name="robots" content="index,follow" />
+				<meta name="robots" content="noindex,nofollow" />
 			</Head>
 			<div className="container mx-auto px-6 py-8">
 				{/* ヒーローセクション */}
 				<section className="mb-12">
 					<div className="relative">
 						<Image
-							src="/blog_hero.webp"
-							alt="hero画像"
+							src="/learning_hero.webp"
+							alt="LearningページのHero画像"
 							width={1200}
 							height={400}
 							className="w-full h-64 object-cover rounded-lg"
 						/>
 						<div className="absolute bottom-0 left-0 p-6 bg-gray-900 bg-opacity-50 text-white rounded-b-lg w-full">
-							<h1 className="text-4xl font-bold font-serif">TECH BLOG</h1>
-							<p>Engineering blog for individual developers.</p>
+							<h1 className="text-4xl font-bold font-serif">PROGRAMMING LEARNING</h1>
+							<p>From development to operation...</p>
 						</div>
 					</div>
 				</section>
@@ -52,13 +52,13 @@ const BlogsPage = ({ metas }) => {
 					<div className="w-full lg:w-3/4 px-6">
 						<div className="flex justify-between items-center mb-4">
 							<div>
-								<h2 className="font-bold text-left">Latest Strories</h2>
+								<h2 className="font-bold text-left">Courses</h2>
 							</div>
 						</div>
 
-						{/* 修正 */}
+						{/* <!-- Experience Card --> */}
 						<Cards metas={paginatedMetas} />
-						{/* 修正 */}
+
 						<PaginationComponent
 							metas={metas}
 							articlePerPage={articlePerPage}
@@ -67,7 +67,7 @@ const BlogsPage = ({ metas }) => {
 					</div>
 
 					{/* Sidebar */}
-					<Sidebar metas={metas} />
+					<Sidebar />
 				</section>
 			</div>
 		</>
@@ -76,7 +76,7 @@ const BlogsPage = ({ metas }) => {
 
 export async function getServerSideProps() {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`);
 		if (!response.ok) {
 			throw new Error(`${response.statusText}`);
 		}
@@ -96,4 +96,4 @@ export async function getServerSideProps() {
 	}
 }
 
-export default BlogsPage;
+export default LearningPage;

@@ -1,7 +1,12 @@
 import '@/styles/globals.css';
+import { useState } from 'react';
 import Head from 'next/head';
 
-import Layout from '@/components/layouts/Layout';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
+
+import supabase from '@/lib/supabaesClient';
+
+import Layout from '../components/layouts/Layout';
 
 export default function App({ Component, pageProps }) {
 	return (
@@ -14,9 +19,11 @@ export default function App({ Component, pageProps }) {
 				/>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
+			<SessionContextProvider supabaseClient={supabase}>
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+			</SessionContextProvider>
 		</>
 	);
 }

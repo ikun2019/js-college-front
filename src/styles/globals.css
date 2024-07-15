@@ -82,3 +82,30 @@
   pointer-events: none;
   color: #a0a0a0;
 }
+
+.outline-thin {
+  outline: 2px solid #7e848e;
+}
+
+/* スピナーのコンテナ */
+.spinner {
+  border: 16px solid #f3f3f3;
+  /* スピナーの背景色 */
+  border-top: 16px solid #3498db;
+  /* スピナーの色 */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+/* アニメーション */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

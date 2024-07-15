@@ -4,37 +4,41 @@ import Head from 'next/head';
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // コンポーネントのインポート
-import Sidebar from '@/components/common/Sidebar';
-import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
-import SinglePagenationComponent from '@/components/blogs/SinglePaginationComponent';
+import Sidebar from '../../components/blogs/Sidebar';
+import BreadcrumbComponent from '../../components/common/BreadcrumbComponent';
+import SinglePagenationComponent from '../../components/common/SinglePaginationComponent';
 
 const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 	console.log('ArticlePage =>', allBlogs);
+	console.log('content =>', content);
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
 		{ label: content.metadata.slug, href: `/${content.metadata.slug}` },
 	];
+
 	return (
 		<>
 			<Head>
-				<title>{content.metadata.title} | JS College</title>
+				<title>{`${content.metadata.title} | JS College`}</title>
 				<meta name="description" content={content.metadata.description} />
 				<meta name="robots" content="index,follow" />
 			</Head>
-			<main className="container mx-auto px-6 py-8">
-				<div className="flex flex-wrap -mx-6">
+			<div className="container mx-auto px-6 py-8">
+				<section className="flex flex-wrap -mx-6">
 					{/* <!-- Blog Post --> */}
-					<div className="w-full lg:w-2/3 px-6 mb-12">
+					<div className="w-full lg:w-3/4 px-6">
 						<div className="bg-white p-6 rounded-lg shadow-lg">
-							<img
-								src={content.metadata.image.file.url}
-								alt="Blog image"
-								className="w-full h-64 object-cover rounded-t-lg mb-4"
-							/>
+							{content.metadata.image?.file?.url && (
+								<img
+									src={content.metadata.image.file.url}
+									alt="Blog image"
+									className="w-full h-64 object-cover rounded-t-lg mb-4"
+								/>
+							)}
 							<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 							<h1 className="text-2xl font-bold mb-2 mt-6">{content.metadata.title}</h1>
 							<p className="text-gray-700 mb-4 text-right">{content.metadata.date}</p>
@@ -47,7 +51,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 									))}
 							</div>
 							<ReactMarkdown
-								children={content.markdown.parent}
+								children={content.markdown}
 								components={{
 									h2(props) {
 										return (
@@ -87,29 +91,24 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 												PreTag="div"
 												children={String(children).replace(/\n$/, '')}
 												language={language}
-												style={atomDark}
+												style={dracula}
+												customStyle={{ fontSize: '0.8em' }}
 											/>
 										) : (
-											<code className={className}>{children}</code>
+											<code className={`${className} text-sm`}>{children}</code>
 										);
 									},
 								}}
 								className="text-gray-700 mb-4"
 							></ReactMarkdown>
-							{/* <blockquote className="italic border-l-4 pl-4 border-gray-500 mb-4">
-								Class aptent taciti sociosqu...
-							</blockquote>
-							<p className="text-gray-700 mb-4">
-								Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin...
-							</p> */}
-							<SinglePagenationComponent prevSlug={prevSlug} nextSlug={nextSlug} />
+							<SinglePagenationComponent page="/blogs" prevSlug={prevSlug} nextSlug={nextSlug} />
 						</div>
 					</div>
-					<aside className="w-full lg:w-1/3">
-						<Sidebar metas={allBlogs} />
-					</aside>
-				</div>
-			</main>
+
+					{/* Sidebar */}
+					<Sidebar metas={allBlogs.metadatas} />
+				</section>
+			</div>
 		</>
 	);
 };
@@ -117,7 +116,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 export async function getStaticPaths() {
 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
 	const blogs = await response.json();
-	const slugs = blogs.map((blog) => blog.slug);
+	const slugs = blogs.metadatas.map((blog) => blog.slug);
 	const params = slugs.map((slug) => ({ params: { slug: slug } }));
 	return {
 		paths: params,
@@ -135,9 +134,14 @@ export async function getStaticProps(context) {
 		}
 		const data = await response.json();
 
+		console.log('data =>', data);
+
 		const allBlogsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
+		if (!allBlogsResponse.ok) {
+			throw new Error(`Error: ${allBlogsResponse.statusText}`);
+		}
 		const allBlogs = await allBlogsResponse.json();
-		const allSlugs = allBlogs.map((blog) => blog.slug);
+		const allSlugs = allBlogs.metadatas.map((blog) => blog.slug);
 		const currentIndex = allSlugs.indexOf(slug);
 		const nextSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : null;
 		const prevSlug = currentIndex < allSlugs.length - 1 ? allSlugs[currentIndex + 1] : null;

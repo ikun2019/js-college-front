@@ -2,17 +2,17 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const Article = ({ meta }) => {
-	console.log('Article =>', meta.image.file);
+const Card = ({ meta }) => {
+	console.log('meta =>', meta);
 	return (
 		<>
 			<article className="h-full">
-				<Link href={`/blogs/${meta.slug}`} className="h-full flex flex-col">
+				<Link href={`/blogs/${meta.slug}`}>
 					<div className="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
 						<div className="relative">
 							<Image
-								src={meta.image.file.url}
-								alt={meta.title}
+								src={meta.image_url}
+								alt={meta.image_name}
 								width={400}
 								height={300}
 								className="w-full h-40 object-cover rounded-t-lg"
@@ -50,4 +50,4 @@ const Article = ({ meta }) => {
 	);
 };
 
-export default Article;
+export default Card;
