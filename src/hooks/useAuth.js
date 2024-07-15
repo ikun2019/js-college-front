@@ -36,6 +36,7 @@ const useAuth = () => {
     setError(null);
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/signin`, {
+        mode: 'cors',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
