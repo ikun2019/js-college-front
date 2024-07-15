@@ -12,6 +12,7 @@ import SinglePagenationComponent from '../../../components/common/SinglePaginati
 import SidebarCourse from '../../../components/learnings/SidebarCourse';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/common/Spinner';
 
 // hooksのインポート
 import useAuthSesseion from '@/hooks/useAuthSession';
@@ -44,7 +45,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 	}, [profile, router]);
 
 	if (loading || !profile) {
-		return <div className="container mx-auto px-6 py-8">Loading...</div>;
+		return <Spinner />;
 	}
 
 	return (

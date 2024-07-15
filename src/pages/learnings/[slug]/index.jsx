@@ -7,6 +7,7 @@ import fetchUserProfile from '@/lib/fetchUserProfile';
 
 import Sidebar from '../../../components/learnings/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
+import Spinner from '@/components/common/Spinner';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
@@ -41,7 +42,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 	};
 
 	if (loading || !profile) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	return (

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-
-import supabase from '@/lib/supabaesClient';
-import useAuthSesseion from '@/hooks/useAuthSession';
 import { useRouter } from 'next/router';
+
+import useAuthSesseion from '@/hooks/useAuthSession';
+
+import Spinner from '@/components/common/Spinner';
 
 const edit = () => {
 	const [profile, setProfile] = useState({ name: '' });
@@ -46,7 +47,7 @@ const edit = () => {
 	};
 
 	if (loading || !user) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	return (

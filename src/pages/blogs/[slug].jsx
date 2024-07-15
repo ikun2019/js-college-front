@@ -19,6 +19,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 		{ label: 'blogs', href: '/blogs' },
 		{ label: content.metadata.slug, href: `/${content.metadata.slug}` },
 	];
+
 	return (
 		<>
 			<Head>
