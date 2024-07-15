@@ -48,6 +48,10 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 		return <Spinner />;
 	}
 
+	if (metadata.premium && !profile.is_subscribed) {
+		return null;
+	}
+
 	return (
 		<>
 			<Head>

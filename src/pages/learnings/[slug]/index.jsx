@@ -28,6 +28,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 	useEffect(() => {
 		if (!loading) {
 			if (!user) {
+				alert('無料会員登録が必要です。');
 				router.push('/auth/signin');
 			} else if (session) {
 				fetchProfile();
