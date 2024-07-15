@@ -115,12 +115,16 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 
 export async function getStaticPaths() {
 	let params = [];
-	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
-	const blogs = await response.json();
-	if (blogs && Array.isArray(blogs)) {
-		params = blogs.metadatas.map((blog) => ({
-			params: { slug: blog.slug },
-		}));
+	try {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
+		const blogs = await response.json();
+		if (blogs && Array.isArray(blogs)) {
+			params = blogs.metadatas.map((blog) => ({
+				params: { slug: blog.slug },
+			}));
+		}
+	} catch (error) {
+		console.error('Error fetching blogs', error);
 	}
 	return {
 		paths: params,
@@ -137,8 +141,6 @@ export async function getStaticProps(context) {
 			throw new Error(`${response.statusText}`);
 		}
 		const data = await response.json();
-
-		console.log('data =>', data);
 
 		const allBlogsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
 		if (!allBlogsResponse.ok) {
