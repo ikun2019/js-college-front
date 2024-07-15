@@ -83,7 +83,7 @@ export async function getServerSideProps() {
 		const data = await response.json();
 		return {
 			props: {
-				metas: data.metadatas,
+				metas: data.metadatas || [],
 			},
 		};
 	} catch (error) {
