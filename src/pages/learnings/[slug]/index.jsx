@@ -37,7 +37,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 
 	// * ユーザーのプロフィールを取得する関数
 	const fetchProfile = async () => {
-		const profileData = await fetchUserProfile(session.access_token);
+		const profileData = await fetchUserProfile(session);
 		setProfile(profileData);
 	};
 

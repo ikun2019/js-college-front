@@ -32,7 +32,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 
 	useEffect(() => {
 		if (!loading && session) {
-			const profileData = fetchUserProfile(session.access_token);
+			const profileData = fetchUserProfile(session);
 			setProfile(profileData);
 		}
 	}, [loading, session]);
