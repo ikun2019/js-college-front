@@ -31,7 +31,7 @@ const LearningPage = ({ metas }) => {
 				<section className="mb-12">
 					<div className="relative">
 						<Image
-							src="/learning_hero.webp"
+							src="/learning_hero.WEBP"
 							alt="LearningページのHero画像"
 							width={1200}
 							height={400}
