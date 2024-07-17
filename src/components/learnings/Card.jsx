@@ -1,8 +1,37 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Card = ({ meta }) => {
+	const [imageUrl, setImageUrl] = useState(meta.image_url);
+
+	useEffect(() => {
+		const checkImageExpiry = async () => {
+			const response = await fetch(imageUrl, { method: 'HEAD' });
+			if (!response.ok) {
+				const newUrl = await fetchImageUrl();
+				setImageUrl(newUrl);
+			}
+		};
+		const interval = setInterval(checkImageExpiry, 3600000);
+		return () => clearInterval(interval);
+	}, [imageUrl]);
+
+	const fetchImageUrl = async () => {
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/api/learnings/get-new-image-url`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		);
+		const data = await response.json();
+		console.log(data);
+		return data.newImageUrl;
+	};
+
 	return (
 		<>
 			<article className="h-full">
@@ -10,7 +39,7 @@ const Card = ({ meta }) => {
 					<div className="bg-white p-4 rounded-lg shadow-lg h-full flex flex-col">
 						<div className="relative">
 							<Image
-								src={meta.image_url}
+								src={imageUrl}
 								alt={meta.image_name}
 								width={400}
 								height={300}
