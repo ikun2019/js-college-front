@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import useAuthSession from '@/hooks/useAuthSession';
-import fetchUserProfile from '@/lib/fetchUserProfile';
 
 import Sidebar from '../../../components/learnings/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
@@ -22,27 +21,17 @@ const index = ({ parentMetadata, childMetadatas }) => {
 	];
 
 	const router = useRouter();
-	const [profile, setProfile] = useState(null);
-	const { user, session, loading } = useAuthSession();
+	const { user, session, loading, profile, fetchUserProfile } = useAuthSession();
 
+	console.log('profile =>', profile);
 	useEffect(() => {
-		if (!loading) {
-			if (!user) {
-				alert('無料会員登録が必要です。');
-				router.push('/auth/signin');
-			} else if (session) {
-				fetchProfile();
-			}
+		if (!loading && !profile && !user) {
+			alert('無料会員登録が必要です。');
+			router.push('/auth/signin');
 		}
-	}, [user, session, router, loading]);
+	}, [user, router, profile, user]);
 
-	// * ユーザーのプロフィールを取得する関数
-	const fetchProfile = async () => {
-		const profileData = await fetchUserProfile(session);
-		setProfile(profileData);
-	};
-
-	if (loading || !profile) {
+	if (loading || !profile || !user) {
 		return <Spinner />;
 	}
 

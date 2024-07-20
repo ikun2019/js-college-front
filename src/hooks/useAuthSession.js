@@ -35,6 +35,7 @@ const useAuthSession = () => {
 
   useEffect(() => {
     if (session) {
+      setLoading(true);
       fetchUserProfile();
     } else {
       setLoading(false);
