@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router';
 
-import Cookies from 'js-cookie';
 import supabase from '@/lib/supabaesClient';
 
 const useAuth = () => {
@@ -13,19 +12,21 @@ const useAuth = () => {
   const handleSignup = async (email, password, name) => {
     setError(null);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password, name })
+      const { error: signupError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { displayName: name }
+        }
       });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error);
+      if (signupError) {
+        setError(signupError.message);
         return;
       }
-      router.push('/learnings').then(() => router.reload());
+      setMessage('ユーザーが作成されました。トップページにリダイレクトします。');
+      setTimeout(() => {
+        router.push('/learnings').then(() => router.reload());
+      }, 3000);
     } catch (error) {
       setError(error.message);
     }
@@ -35,22 +36,15 @@ const useAuth = () => {
   const handleSignin = async (email, password) => {
     setError(null);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/signin`, {
-        mode: 'cors',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ email, password })
+      const { error: signinError } = await supabase.auth.signInWithPassword({
+        email,
+        password
       });
-      const data = await response.json();
-      console.log('data =>', data);
-      if (!response.ok) {
-        setError(data.error);
+      if (signinError) {
+        setError(signinError.message);
         return;
       }
-      Cookies.set('access_token', data, { expires: 7 });
+      setMessage('ログインしました');
       router.push('/learnings').then(() => router.reload());
     } catch (error) {
       setError(error.message);
@@ -61,16 +55,17 @@ const useAuth = () => {
   const handleGmailSignin = async () => {
     setError(null)
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/gmail`, {
-        method: 'GET',
-        credentials: 'include',
+      const { error: gmailError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/learnings`,
+        },
       });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error);
+      if (gmailError) {
+        setError(gmailError.message);
         return;
-      };
-      window.location.href = data.url;
+      }
+      setMessage('ログインしました。トップページにリダイレクトします。');
     } catch (error) {
       setError(error.message);
     }
@@ -80,16 +75,17 @@ const useAuth = () => {
   const handleGitHubSignin = async () => {
     setError(null);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/github`, {
-        method: 'GET',
-        credentials: 'include',
+      const { error: githubError } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: `${window.location.origin}/learnings`
+        }
       });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error);
+      if (githubError) {
+        setError(githubError.message);
         return;
       }
-      window.location.href = data.url;
+      setMessage('ログインしました。トップページにリダイレクトします。');
     } catch (error) {
       setError(error.message);
     }
@@ -97,34 +93,19 @@ const useAuth = () => {
 
   // * サインアウト
   const handleSignout = async () => {
-    setError(null);
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/signout`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (!response.ok) {
-        setError(response.error);
-        return;
-      }
-      Cookies.remove('access_token');
-      router.reload();
-    } catch (error) {
-      setError(error.message);
-    }
+    await supabase.auth.signOut();
+    router.reload();
   };
 
   // * パスワードリセットのメール送信
   const handleSendEmail = async (email) => {
     setError(null);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error: resetPasswordError } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
       });
-      if (error) {
-        setError(error.message);
+      if (resetPasswordError) {
+        setError(resetPasswordError.message);
         return;
       }
       setMessage('パスワードリセットのリンクがメールに送信されました。');

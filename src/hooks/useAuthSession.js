@@ -1,56 +1,46 @@
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import { useSession, useUser } from '@supabase/auth-helpers-react';
 
 const useAuthSession = () => {
-  const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
+  const session = useSession();
+  const user = useUser();
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (session) {
+      setLoading(false);
+    }
     const fetchUserProfile = async () => {
-      const token = Cookies.get('access_token');
-      if (!token) {
-        setLoading(false);
+      if (!session) {
+        setLoading(true);
         return;
       }
-      setSession(token);
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/profile`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          setError(data.error);
-          setProfile(null);
-          setUser(null);
-        } else {
-          setProfile(data.profile);
-          setUser(data.user);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/profile`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
         }
-      } catch (error) {
-        setError(error.message);
-        setProfile(null);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+      });
+      if (!response.ok) {
+        throw new Error('プロフィールの取得ができませんでした。');
+      };
+      const data = await response.json();
+
+      console.log(data.profile);
+      setProfile(data.profile);
     };
     fetchUserProfile();
-  }, []);
+  }, [session, user]);
 
 
   return {
     session,
     user,
-    profile,
     loading,
+    profile,
     error,
   }
 }

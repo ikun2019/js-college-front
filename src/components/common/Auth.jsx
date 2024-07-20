@@ -6,7 +6,8 @@ import GmailSignupButton from './GmailSignupButton';
 import GithubSignupButton from './GithubSignupButton';
 
 const Auth = ({ signup }) => {
-	const { error, handleSignin, handleSignup, handleGmailSignin, handleGitHubSignin } = useAuth();
+	const { message, error, handleSignin, handleSignup, handleGmailSignin, handleGitHubSignin } =
+		useAuth();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -85,6 +86,8 @@ const Auth = ({ signup }) => {
 								onChange={(e) => setPassword(e.target.value)}
 							/>
 						</div>
+						{error && <div className="text-red-500 mb-4 text-sm">{error}</div>}
+						{message && <div className="text-green-500 mb-4 text-sm">{message}</div>}
 						{signup ? (
 							<button
 								type="submit"

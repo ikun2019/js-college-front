@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -10,23 +10,24 @@ import useAuthSesseion from '@/hooks/useAuthSession';
 
 const Profile = () => {
 	const router = useRouter();
-	const { profile, user, loading } = useAuthSesseion();
+	const { user, loading, profile } = useAuthSesseion();
+
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'profile', href: '/auth/profile' },
 	];
 
 	useEffect(() => {
-		if (!loading && !user) {
+		if (!loading && !user && !profile) {
 			router.push('/learnings');
 		}
-	}, [loading, user, router]);
+	}, [loading, user, router, profile]);
 
 	if (loading) {
 		return <Spinner />;
 	}
 
-	if (!user) {
+	if (!user || !profile) {
 		return null;
 	}
 
@@ -54,15 +55,15 @@ const Profile = () => {
 							<tbody>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Name</td>
-									<td className="px-5 py-2">{profile.name}</td>
+									<td className="px-5 py-2">{user.user_metadata.displayName}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Email</td>
-									<td className="px-4 py-2">{user.email}</td>
+									<td className="px-4 py-2">{user.user_metadata.email}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Subscription</td>
-									<td className="px-4 py-2">2,000円/月</td>
+									<td className="px-4 py-2">{profile.is_subscribed}</td>
 								</tr>
 							</tbody>
 						</table>
