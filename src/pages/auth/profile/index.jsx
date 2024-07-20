@@ -17,12 +17,6 @@ const Profile = () => {
 		{ label: 'profile', href: '/auth/profile' },
 	];
 
-	useEffect(() => {
-		if (!loading && !user && !profile) {
-			router.push('/learnings');
-		}
-	}, [loading, user, router, profile]);
-
 	if (!user || !profile || loading) {
 		return <Spinner />;
 	}
@@ -44,14 +38,14 @@ const Profile = () => {
 						<div className="flex items-center mb-6">
 							<div>
 								<h1 className="text-2xl font-bold mb-6 text-gray-800">Your Profile</h1>
-								<p className="text-gray-600">email address</p>
+								<p className="text-gray-600">{user.user_metadata.email}</p>
 							</div>
 						</div>
 						<table className="min-w-full bg-white">
 							<tbody>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Name</td>
-									<td className="px-5 py-2">{user.user_metadata.displayName}</td>
+									<td className="px-5 py-2">{profile.name}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Email</td>

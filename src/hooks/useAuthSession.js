@@ -8,15 +8,12 @@ const useAuthSession = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (session) {
+  const fetchUserProfile = async () => {
+    if (!session) {
       setLoading(false);
+      return;
     }
-    const fetchUserProfile = async () => {
-      if (!session) {
-        setLoading(true);
-        return;
-      }
+    try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/profile`, {
         method: 'GET',
         headers: {
@@ -28,12 +25,21 @@ const useAuthSession = () => {
         throw new Error('プロフィールの取得ができませんでした。');
       };
       const data = await response.json();
-
-      console.log(data.profile);
       setProfile(data.profile);
-    };
-    fetchUserProfile();
-  }, [session, user]);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (session) {
+      fetchUserProfile();
+    } else {
+      setLoading(false);
+    }
+  }, [session]);
 
 
   return {
@@ -42,6 +48,7 @@ const useAuthSession = () => {
     loading,
     profile,
     error,
+    fetchUserProfile,
   }
 }
 

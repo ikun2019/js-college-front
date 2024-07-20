@@ -7,22 +7,23 @@ import useAuthSesseion from '@/hooks/useAuthSession';
 import Spinner from '@/components/common/Spinner';
 
 const edit = () => {
-	const [profile, setProfile] = useState({ name: '' });
-	const { user, session, loading } = useAuthSesseion();
+	const { user, session, loading: authLoading, profile, fetchUserProfile } = useAuthSesseion();
+	const [newProfile, setNewProfile] = useState({ name: '' });
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	useEffect(() => {
-		if (loading) return;
-		if (!user) {
+		if (authLoading) return;
+		if (!authLoading && !user && !profile) {
 			router.push('/auth/signin');
 		} else {
-			setProfile({ name: user.user_metadata?.displayName || '' });
+			setNewProfile({ name: profile.name || '' });
 		}
-	}, [user, session, loading, router]);
+	}, [user, session, authLoading, router, profile]);
 
 	const updateProfile = async (e) => {
 		e.preventDefault();
-		console.log(session.access_token);
+		setLoading(true);
 		try {
 			const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/profile`, {
 				method: 'PUT',
@@ -31,22 +32,24 @@ const edit = () => {
 					Authorization: `Bearer ${session.access_token}`,
 				},
 				body: JSON.stringify({
-					profileData: { name: profile.name },
+					profileData: { name: newProfile.name },
 				}),
 			});
 			if (!response.ok) {
 				const errorData = await response.json();
 				console.error('Error updating profile:', errorData.error);
+				setLoading(false);
 				return;
 			}
-			const data = await response.json();
+			await fetchUserProfile();
 			router.push('/auth/profile');
 		} catch (error) {
-			console.error('Error', error);
+			console.error('Error', error.message);
+			setLoading(false);
 		}
 	};
 
-	if (loading || !user) {
+	if (loading || authLoading || !user) {
 		return <Spinner />;
 	}
 
@@ -66,8 +69,8 @@ const edit = () => {
 							<input
 								type="text"
 								name="name"
-								value={profile.name}
-								onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+								value={newProfile.name}
+								onChange={(e) => setNewProfile({ ...newProfile, name: e.target.value })}
 								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
 								required
 							/>
