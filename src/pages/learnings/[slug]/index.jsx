@@ -23,13 +23,16 @@ const index = ({ parentMetadata, childMetadatas }) => {
 	const router = useRouter();
 	const { user, session, loading, profile, fetchUserProfile } = useAuthSession();
 
-	console.log('profile =>', profile);
 	useEffect(() => {
-		if (!loading && !profile && !user) {
+		if (!loading) return;
+		if (session) {
+			fetchUserProfile();
+		}
+		if (!loading && (!profile || !user)) {
 			alert('無料会員登録が必要です。');
 			router.push('/auth/signin');
 		}
-	}, [user, router, profile, user]);
+	}, [user, router, profile, loading]);
 
 	if (loading || !profile || !user) {
 		return <Spinner />;
