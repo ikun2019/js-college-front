@@ -94,7 +94,7 @@ const useAuth = () => {
   // * サインアウト
   const handleSignout = async () => {
     await supabase.auth.signOut();
-    router.reload();
+    router.push('/');
   };
 
   // * パスワードリセットのメール送信

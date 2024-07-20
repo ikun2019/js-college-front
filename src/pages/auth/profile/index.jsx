@@ -23,12 +23,8 @@ const Profile = () => {
 		}
 	}, [loading, user, router, profile]);
 
-	if (loading) {
+	if (!user || !profile || loading) {
 		return <Spinner />;
-	}
-
-	if (!user || !profile) {
-		return null;
 	}
 
 	return (
@@ -63,7 +59,7 @@ const Profile = () => {
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Subscription</td>
-									<td className="px-4 py-2">{profile.is_subscribed}</td>
+									<td className="px-4 py-2">{profile.is_subscribed ? '契約中' : '未加入'}</td>
 								</tr>
 							</tbody>
 						</table>
