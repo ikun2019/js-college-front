@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSession, useUser } from '@supabase/auth-helpers-react';
+import supabase from '@/lib/supabaesClient';
+// import { useSession, useUser } from '@supabase/auth-helpers-react';
 
 const useAuthSession = () => {
-  const session = useSession();
-  const user = useUser();
+  const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchUserProfile = async () => {
+    setLoading(true);
     if (!session) {
       setLoading(false);
       return;
@@ -25,6 +27,7 @@ const useAuthSession = () => {
         throw new Error('プロフィールの取得ができませんでした。');
       };
       const data = await response.json();
+      console.log('data =>', data);
       setProfile(data.profile);
     } catch (error) {
       setError(error.message);
@@ -34,13 +37,28 @@ const useAuthSession = () => {
   };
 
   useEffect(() => {
-    if (session) {
-      setLoading(true);
-      fetchUserProfile();
-    } else {
-      setLoading(false);
-    }
-  }, [session]);
+    (async () => {
+      const supabaseSession = await supabase.auth.getSession();
+      if (supabaseSession) {
+        setSession(supabaseSession);
+        setUser(supabaseSession.user);
+        fetchUserProfile();
+      } else {
+        setLoading(false);
+      }
+      const { data: authListener } = await supabase.auth.onAuthStateChange((event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session) {
+          fetchUserProfile();
+        }
+      });
+
+      return () => {
+        authListener.unsubscribe();
+      };
+    })();
+  }, []);
 
 
   return {

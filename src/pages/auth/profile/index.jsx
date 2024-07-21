@@ -10,15 +10,27 @@ import useAuthSesseion from '@/hooks/useAuthSession';
 
 const Profile = () => {
 	const router = useRouter();
-	const { user, loading, profile } = useAuthSesseion();
+	const { user, loading, profile, session, fetchUserProfile } = useAuthSesseion();
 
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'profile', href: '/auth/profile' },
 	];
 
-	if (!user || !profile || loading) {
+	useEffect(() => {
+		if (!loading && !session) {
+			router.push('/auth/signin');
+		}
+		if (session && !profile) {
+			fetchUserProfile();
+		}
+	}, [user, loading, profile, router]);
+
+	if (loading) {
 		return <Spinner />;
+	}
+	if (!user) {
+		return null;
 	}
 
 	return (
@@ -38,22 +50,22 @@ const Profile = () => {
 						<div className="flex items-center mb-6">
 							<div>
 								<h1 className="text-2xl font-bold mb-6 text-gray-800">Your Profile</h1>
-								<p className="text-gray-600">{user.user_metadata.email}</p>
+								<p className="text-gray-600">{user?.user_metadata.email}</p>
 							</div>
 						</div>
 						<table className="min-w-full bg-white">
 							<tbody>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Name</td>
-									<td className="px-5 py-2">{profile.name}</td>
+									<td className="px-5 py-2">{profile?.name}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Email</td>
-									<td className="px-4 py-2">{user.user_metadata.email}</td>
+									<td className="px-4 py-2">{user?.user_metadata.email}</td>
 								</tr>
 								<tr className="w-full border-b">
 									<td className="px-4 py-2 font-bold">Subscription</td>
-									<td className="px-4 py-2">{profile.is_subscribed ? '契約中' : '未加入'}</td>
+									<td className="px-4 py-2">{profile?.is_subscribed ? '契約中' : '未加入'}</td>
 								</tr>
 							</tbody>
 						</table>

@@ -21,21 +21,23 @@ const index = ({ parentMetadata, childMetadatas }) => {
 	];
 
 	const router = useRouter();
-	const { user, session, loading, profile, fetchUserProfile } = useAuthSession();
+	const { user, session, profile, loading, fetchUserProfile } = useAuthSession();
 
 	useEffect(() => {
-		if (!loading) return;
-		if (session) {
-			fetchUserProfile();
-		}
-		if (!loading && (!profile || !user)) {
-			alert('無料会員登録が必要です。');
+		if (!loading && !session) {
 			router.push('/auth/signin');
 		}
-	}, [user, router, profile, loading]);
+		if (session && !profile) {
+			fetchUserProfile();
+		}
+	}, [user, loading, router, profile]);
 
-	if (loading || !profile || !user) {
+	if (loading) {
 		return <Spinner />;
+	}
+
+	if (!user) {
+		return null;
 	}
 
 	return (
@@ -115,12 +117,12 @@ const index = ({ parentMetadata, childMetadatas }) => {
 											<Link
 												href={`/learnings/${parentMetadata.slug}/${item.slug}`}
 												className={`cursor-pointer ${
-													item.premium && !profile.is_subscribed ? 'disabled' : ''
+													item.premium && !profile?.is_subscribed ? 'disabled' : ''
 												}`}
 											>
 												<div className="flex justify-between">
 													<span className="text-gray-600 text-sm">{`Lesson ${index + 1}`}</span>
-													{!item.premium && !profile.is_subscribed ? (
+													{!item.premium && !profile?.is_subscribed ? (
 														<span className="inline-flex items-center justify-center px-3 py-1 text-sm font-bold leading-none text-white bg-red-700 rounded-full shadow-lg border-2 border-red-900">
 															Free
 														</span>

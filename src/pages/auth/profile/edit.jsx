@@ -7,23 +7,22 @@ import useAuthSesseion from '@/hooks/useAuthSession';
 import Spinner from '@/components/common/Spinner';
 
 const edit = () => {
-	const { user, session, loading: authLoading, profile, fetchUserProfile } = useAuthSesseion();
+	const { session, loading, profile, fetchUserProfile } = useAuthSesseion();
 	const [newProfile, setNewProfile] = useState({ name: '' });
-	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	useEffect(() => {
-		if (authLoading) return;
-		if (!authLoading && !user && !profile) {
+		if (!loading && !session) {
 			router.push('/auth/signin');
-		} else {
-			setNewProfile({ name: profile.name || '' });
 		}
-	}, [user, session, authLoading, router, profile]);
+		if (session && !profile) {
+			fetchUserProfile();
+		}
+		setNewProfile({ name: profile?.name });
+	}, [session, loading, router, profile]);
 
 	const updateProfile = async (e) => {
 		e.preventDefault();
-		setLoading(true);
 		try {
 			const response = await fetch(`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/auth/profile`, {
 				method: 'PUT',
@@ -38,18 +37,16 @@ const edit = () => {
 			if (!response.ok) {
 				const errorData = await response.json();
 				console.error('Error updating profile:', errorData.error);
-				setLoading(false);
 				return;
 			}
 			await fetchUserProfile();
 			router.push('/auth/profile');
 		} catch (error) {
 			console.error('Error', error.message);
-			setLoading(false);
 		}
 	};
 
-	if (loading || authLoading || !user) {
+	if (loading || !profile) {
 		return <Spinner />;
 	}
 

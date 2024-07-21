@@ -16,7 +16,7 @@ import Spinner from '@/components/common/Spinner';
 
 // hooksのインポート
 import useAuthSesseion from '@/hooks/useAuthSession';
-import fetchUserProfile from '@/lib/fetchUserProfile';
+// import fetchUserProfile from '@/lib/fetchUserProfile';
 
 const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, headings }) => {
 	const breadcrumbs = [
@@ -27,18 +27,19 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 	];
 
 	const router = useRouter();
-	const [profile, setProfile] = useState(null);
-	const { user, session, loading } = useAuthSesseion();
+	const { user, session, loading, profile, fetchUserProfile } = useAuthSesseion();
 
 	useEffect(() => {
-		if (!loading && session) {
-			const profileData = fetchUserProfile(session);
-			setProfile(profileData);
+		if (!loading && !session) {
+			router.push('/auth/signin');
 		}
-	}, [loading, session]);
+		if (session && !profile) {
+			fetchUserProfile();
+		}
+	}, [loading, session, user, profile]);
 
 	useEffect(() => {
-		if (metadata.premium && profile && !profile.is_subscribed) {
+		if (metadata.premium && profile && !profile?.is_subscribed) {
 			alert('プレミアム会員へのアップグレードが必要です');
 			router.push('/auth/profile');
 		}
@@ -49,7 +50,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 	}
 
 	if (metadata.premium && !profile.is_subscribed) {
-		return null;
+		return <Spinner />;
 	}
 
 	return (

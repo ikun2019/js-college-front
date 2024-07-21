@@ -9,6 +9,7 @@ import supabase from '@/lib/supabaesClient';
 import Layout from '../components/layouts/Layout';
 
 export default function App({ Component, pageProps }) {
+	const [session, setSession] = useState(pageProps.initialSession);
 	return (
 		<>
 			<Head>
@@ -19,7 +20,7 @@ export default function App({ Component, pageProps }) {
 				/>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
-			<SessionContextProvider supabaseClient={supabase}>
+			<SessionContextProvider supabaseClient={supabase} initialSession={session}>
 				<Layout>
 					<Component {...pageProps} />
 				</Layout>
