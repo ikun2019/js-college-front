@@ -6,7 +6,6 @@ import Spinner from '@/components/common/Spinner';
 const Callback = () => {
 	const router = useRouter();
 	const { code } = router.query;
-	console.log('code', code);
 	useEffect(() => {
 		const fetchSession = async () => {
 			if (code) {

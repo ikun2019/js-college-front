@@ -27,7 +27,6 @@ const useAuthSession = () => {
         throw new Error('プロフィールの取得ができませんでした。');
       };
       const data = await response.json();
-      console.log('data =>', data);
       setProfile(data.profile);
     } catch (error) {
       setError(error.message);

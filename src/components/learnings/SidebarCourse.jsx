@@ -1,7 +1,6 @@
 import React from 'react';
 
 const SidebarCourse = ({ headings }) => {
-	console.log('Headings =>', headings);
 	return (
 		<aside className="w-full lg:w-1/4 px-6 mb-12 lg:mb-0 mt-6 lg:mt-0">
 			<div className="bg-white p-6 rounded-lg shadow-lg mb-6">

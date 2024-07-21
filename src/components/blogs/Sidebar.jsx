@@ -10,7 +10,6 @@ const Sidebar = ({ metas }) => {
 			const results = metas.filter((meta) => {
 				return meta.title.toLowerCase().includes(searchWord.toLowerCase());
 			});
-			console.log(results);
 			setResults(results);
 		} else {
 			setResults([]);

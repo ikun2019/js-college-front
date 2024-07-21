@@ -9,7 +9,6 @@ import {
 } from '../ui/breadcrumb';
 
 const BreadcrumbComponent = ({ breadcrumbs }) => {
-	console.log('breadcrumbs =>', breadcrumbs);
 	const breadcrumbsLength = breadcrumbs.length;
 	return (
 		<>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import useAuthSesseion from '@/hooks/useAuthSession';
 
 import Spinner from '@/components/common/Spinner';
+import { Input } from '@/components/ui/input';
 
 const edit = () => {
 	const { session, loading, profile, fetchUserProfile } = useAuthSesseion();
@@ -62,10 +63,13 @@ const edit = () => {
 					<h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
 					<form onSubmit={updateProfile}>
 						<div className="mb-4">
-							<label className="block text-gray-700">Name</label>
-							<input
+							<label htmlFor="Name" className="block text-gray-700 text-sm">
+								Name
+							</label>
+							<Input
 								type="text"
 								name="name"
+								placeholder="name"
 								value={newProfile.name}
 								onChange={(e) => setNewProfile({ ...newProfile, name: e.target.value })}
 								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"

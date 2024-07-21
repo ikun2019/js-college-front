@@ -4,6 +4,7 @@ import Link from 'next/link';
 import useAuth from '../../hooks/useAuth';
 import GmailSignupButton from './GmailSignupButton';
 import GithubSignupButton from './GithubSignupButton';
+import { Input } from '../ui/input';
 
 const Auth = ({ signup }) => {
 	const { message, error, handleSignin, handleSignup, handleGmailSignin, handleGitHubSignin } =
@@ -45,9 +46,9 @@ const Auth = ({ signup }) => {
 						{signup && (
 							<div className="mb-4">
 								<label htmlFor="name" className="block text-sm font-medium text-gray-700">
-									ニックネーム
+									Nickname
 								</label>
-								<input
+								<Input
 									id="name"
 									name="name"
 									type="name"
@@ -60,9 +61,9 @@ const Auth = ({ signup }) => {
 						)}
 						<div className="mb-4">
 							<label htmlFor="email" className="block text-sm font-medium text-gray-700">
-								メールアドレス
+								E-mail
 							</label>
-							<input
+							<Input
 								id="email"
 								name="email"
 								type="email"
@@ -74,9 +75,9 @@ const Auth = ({ signup }) => {
 						</div>
 						<div className="mb-6">
 							<label htmlFor="password" className="block text-sm font-medium text-gray-700">
-								パスワード
+								Password
 							</label>
-							<input
+							<Input
 								id="password"
 								name="password"
 								type="password"

@@ -28,7 +28,6 @@ const Card = ({ meta }) => {
 			}
 		);
 		const data = await response.json();
-		console.log(data);
 		return data.newImageUrl;
 	};
 

@@ -12,8 +12,6 @@ import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import SinglePagenationComponent from '@/components/common/SinglePaginationComponent';
 
 const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
-	console.log('ArticlePage =>', allBlogs);
-	console.log('content =>', content);
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
