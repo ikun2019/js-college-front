@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { Button } from '@/components/ui/button';
+// コンポーネントのインポート
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Spinner from '@/components/common/Spinner';
+import EditProfile from '@/components/profile/EditProfile';
 
+// カスタムAPIのインポート
 import useAuthSesseion from '@/hooks/useAuthSession';
 
 const Profile = () => {
@@ -70,12 +72,12 @@ const Profile = () => {
 							</tbody>
 						</table>
 						<div className="mt-6">
-							<Button
-								className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-								onClick={() => router.push('/auth/profile/edit')}
-							>
-								Edit Profile
-							</Button>
+							<EditProfile
+								session={session}
+								loading={loading}
+								profile={profile}
+								fetchUserProfile={fetchUserProfile}
+							/>
 						</div>
 					</div>
 				</section>
