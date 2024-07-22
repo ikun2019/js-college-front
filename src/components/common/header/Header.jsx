@@ -41,9 +41,9 @@ const Header = () => {
 
 	return (
 		<header className="font-mono flex justify-between py-3 px-6 fixed bg-white shadow-md w-full z-50">
-			<div>
-				<p className="font-sans text-sm text-gray-500">JavaScriptを学ぶなら</p>
-				<p className="text-xl">JS College</p>
+			<div className="flex items-center md:flex-col">
+				<p className="font-sans text-sm text-gray-500 hidden md:block">JavaScriptを学ぶなら</p>
+				<p className="text-xl md:ml-2">JS College</p>
 			</div>
 			<HamburgerMenu
 				toggleHamburger={toggleHamburger}

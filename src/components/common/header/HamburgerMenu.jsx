@@ -6,7 +6,7 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 		<>
 			{/* ハンバーガーアイコン */}
 			<div
-				className={`relative bg-gray-800 cursor-pointer rounded-md w-[50px] h-[50px] md:hidden ${
+				className={`relative bg-gray-800 cursor-pointer rounded-md w-[50px] h-[50px] md:hidden z-10 ${
 					isActive ? 'active' : ''
 				}`}
 				onClick={toggleHamburger}
@@ -30,42 +30,46 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 				></span>
 			</div>
 			{/* メニューコンテンツ */}
-			<nav className={`${isActive ? 'block' : 'hidden'}`}>
-				<ul>
-					<li>
+			<nav
+				className={`fixed top-[4.7rem] right-0 h-full w-3/4 bg-gray-100 transform transition-transform duration-300 ease-in-out md:hidden ${
+					isActive ? 'translate-x-0' : 'translate-x-full'
+				}`}
+			>
+				<ul className="flex flex-col items-center justify-center h-ful">
+					<li className="py-2 block w-full hover:bg-gray-200">
 						<Link href="/" className="block w-full px-4 py-2 text-center">
 							Home
 						</Link>
 					</li>
-					<hr />
-					<li>
+					<hr className="w-full border-gray-300" />
+					<li className="py-2 block w-full hover:bg-gray-200">
 						<Link href="/blogs" className="block w-full px-4 py-2 text-center">
 							Blogs
 						</Link>
 					</li>
-					<hr />
-					<li>
+					<hr className="w-full border-gray-300" />
+					<li className="py-2 block w-full hover:bg-gray-200">
 						<Link href="/learnings" className="block w-full px-4 py-2 text-center">
 							Learning
 						</Link>
 					</li>
-					<hr />
+					<hr className="w-full border-gray-300" />
 					{user ? (
 						<>
-							<li className="block hover:bg-gray-200">
+							<li className="py-2 block w-full hover:bg-gray-200">
 								<Link href="/auth/profile" className="block w-full px-4 py-2 text-center">
 									Profile
 								</Link>
 							</li>
-							<hr />
-							<li className="block hover:bg-gray-200">
+							<hr className="w-full border-gray-300" />
+							<li className="py-2 block w-full hover:bg-gray-200">
 								<button className="block w-full px-4 py-2" onClick={onSignout}>
 									SignOut
 								</button>
 							</li>
 						</>
 					) : (
-						<li>
+						<li className="py-2 block w-full hover:bg-gray-200">
 							<Link href="/auth/signin" className="text-gray-100 font-bold bg-blue-500">
 								SignIn
 							</Link>
