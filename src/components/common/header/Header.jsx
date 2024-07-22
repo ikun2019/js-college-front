@@ -2,15 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { Button } from '../ui/button';
-import useAuthSesseion from '../../hooks/useAuthSession';
-import useAuth from '../../hooks/useAuth';
+import { Button } from '../../ui/button';
+import useAuthSesseion from '../../../hooks/useAuthSession';
+import HamburgerMenu from './HamburgerMenu';
+import useAuth from '../../../hooks/useAuth';
 
 const Header = () => {
 	const { user } = useAuthSesseion();
 	const { handleSignout } = useAuth();
 
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false); // profileの開閉
+	const [isActive, setIsActive] = useState(false); // ハンバーガーメニューの開閉
 	const menuRef = useRef(null);
 	const handleClickOutside = (event) => {
 		if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -28,6 +30,10 @@ const Header = () => {
 		setIsOpen(!isOpen);
 	};
 
+	const toggleHamburger = () => {
+		setIsActive(!isActive);
+	};
+
 	const onSignout = async (e) => {
 		e.preventDefault();
 		await handleSignout();
@@ -39,7 +45,13 @@ const Header = () => {
 				<p className="font-sans text-sm text-gray-500">JavaScriptを学ぶなら</p>
 				<p className="text-xl">JS College</p>
 			</div>
-			<nav className="flex items-center">
+			<HamburgerMenu
+				toggleHamburger={toggleHamburger}
+				isActive={isActive}
+				user={user}
+				onSignout={onSignout}
+			/>
+			<nav className="md:flex md:items-center hidden">
 				<ul className="flex items-center">
 					<li>
 						<Button variant="ghost" asChild>
