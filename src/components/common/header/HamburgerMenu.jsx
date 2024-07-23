@@ -13,7 +13,7 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 			>
 				<span
 					className={`block absolute h-[2px] bg-gray-50 w-[62%] left-[10px] transition-all duration-300 ease-in-out ${
-						isActive ? 'top-[24px] left-[13px] rotate-[-45deg] w-[50%]' : 'top-[14px]'
+						isActive ? 'top-[24px] left-[12px] rotate-[-45deg] w-[50%]' : 'top-[14px]'
 					}`}
 				></span>
 				<span
@@ -25,7 +25,7 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 				</span>
 				<span
 					className={`block absolute h-[2px] bg-gray-50 w-[62%] left-[10px] transition-all duration-300 ease-in-out ${
-						isActive ? 'top-[24px] left-[13px] rotate-[45deg] w-[50%]' : 'top-[36px]'
+						isActive ? 'top-[24px] left-[12px] rotate-[45deg] w-[50%]' : 'top-[36px]'
 					}`}
 				></span>
 			</div>
