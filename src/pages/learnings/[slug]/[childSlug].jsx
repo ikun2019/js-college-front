@@ -22,8 +22,8 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Learning', href: '/learnings' },
-		{ label: slug, href: `/${slug}` },
-		{ label: metadata.slug, href: `/${metadata.slug}` },
+		{ label: slug, href: `/learnings/${slug}` },
+		{ label: metadata.slug, href: `/learnings/${slug}/${metadata.slug}` },
 	];
 
 	const router = useRouter();

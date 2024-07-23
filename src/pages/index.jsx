@@ -41,7 +41,7 @@ export default function Home() {
 									src="/top/icons/study.svg"
 									width={150}
 									height={150}
-									className="bg-white"
+									className="bg-gray-50"
 									alt="学習している画像"
 								/>
 								<h3 className="text-2xl font-bold mt-3">Study</h3>
@@ -54,7 +54,7 @@ export default function Home() {
 									src="/top/icons/deploy.svg"
 									width={150}
 									height={150}
-									className="bg-white"
+									className="bg-gray-50"
 									alt="サーバーにアップロードしている画像"
 								/>
 								<h3 className="text-2xl font-bold mt-3">Deploy</h3>
@@ -68,7 +68,7 @@ export default function Home() {
 									src="/top/icons/marketing.svg"
 									width={150}
 									height={150}
-									className="bg-white"
+									className="bg-gray-50"
 									alt="サーバーにアップロードしている画像"
 								/>
 								<h3 className="text-2xl font-bold mt-3">Marketing</h3>

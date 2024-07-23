@@ -11,7 +11,7 @@ import PaginationComponent from '../../components/common/PaginationComponent';
 const LearningPage = ({ metas }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'Learning', href: '/learning' },
+		{ label: 'Learning', href: '/learnings' },
 	];
 
 	const [paginatedMetas, setPaginatedMetas] = useState([]);

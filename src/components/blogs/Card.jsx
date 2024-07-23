@@ -3,6 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const Card = ({ meta }) => {
+	const formatDate = (metaDate) => {
+		const date = new Date(metaDate);
+		const formatedDate = `${date.getFullYear()}年${date.getMonth()}月${date.getDay()}日`;
+		return formatedDate;
+	};
+
 	return (
 		<>
 			<article className="h-full">
@@ -40,7 +46,7 @@ const Card = ({ meta }) => {
 							<p className="text-gray-700 mb-4 text-sm">{meta.description}</p>
 						</div>
 						<div className="mt-auto">
-							<span className="text-gray-500">{meta.date}</span>
+							<span className="text-gray-500">{formatDate(meta.date)}</span>
 						</div>
 					</div>
 				</Link>

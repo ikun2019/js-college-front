@@ -13,7 +13,7 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 			>
 				<span
 					className={`block absolute h-[2px] bg-gray-50 w-[62%] left-[10px] transition-all duration-300 ease-in-out ${
-						isActive ? 'top-[24px] left-[11px] rotate-[-45deg] w-[50%]' : 'top-[14px]'
+						isActive ? 'top-[24px] left-[10px] rotate-[-45deg] w-[50%]' : 'top-[14px]'
 					}`}
 				></span>
 				<span
@@ -25,7 +25,7 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 				</span>
 				<span
 					className={`block absolute h-[2px] bg-gray-50 w-[62%] left-[10px] transition-all duration-300 ease-in-out ${
-						isActive ? 'top-[24px] left-[11px] rotate-[45deg] w-[50%]' : 'top-[36px]'
+						isActive ? 'top-[24px] left-[10px] rotate-[45deg] w-[50%]' : 'top-[36px]'
 					}`}
 				></span>
 			</div>
@@ -50,7 +50,7 @@ const HamburgerMenu = ({ toggleHamburger, isActive, user, onSignout }) => {
 					<hr className="w-full border-gray-300" />
 					<li className="py-2 block w-full hover:bg-gray-200">
 						<Link href="/learnings" className="block w-full px-4 py-2 text-center">
-							Learning
+							Learnings
 						</Link>
 					</li>
 					<hr className="w-full border-gray-300" />

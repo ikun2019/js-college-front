@@ -74,7 +74,7 @@ const Header = () => {
 					<li>
 						<Button variant="gohst" asChild>
 							<Link href="/learnings" className="text-gray-600">
-								Learning
+								Learnings
 							</Link>
 						</Button>
 					</li>

@@ -15,7 +15,7 @@ const ArticlePage = ({ content, allBlogs, prevSlug, nextSlug }) => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'blogs', href: '/blogs' },
-		{ label: content.metadata?.slug, href: `/${content.metadata?.slug}` },
+		{ label: content.metadata?.slug, href: `/blogs/${content.metadata?.slug}` },
 	];
 
 	const date = new Date(content.metadata.date);

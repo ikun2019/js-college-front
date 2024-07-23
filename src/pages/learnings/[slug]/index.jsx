@@ -16,8 +16,8 @@ const index = ({ parentMetadata, childMetadatas }) => {
 	console.log('Learnings Slug Page');
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'Learning', href: '/learning' },
-		{ label: parentMetadata.slug, href: `/${parentMetadata.slug}` },
+		{ label: 'Learning', href: '/learnings' },
+		{ label: parentMetadata.slug, href: `/learnings/${parentMetadata.slug}` },
 	];
 
 	const router = useRouter();
