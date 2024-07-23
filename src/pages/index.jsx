@@ -29,7 +29,7 @@ export default function Home() {
 				{/* How it works */}
 				<section className="container mb-12 p-6">
 					<h2 className="text-3xl font-bold text-center font-serif">How it works</h2>
-					<p className="text-center my-12 mx-20 leading-relaxed">
+					<p className="text-center my-12 mx-0 md:mx-20 leading-relaxed">
 						このサイトは、個人開発をしてマネタイズ化したい方に向けたウェブサイトです。
 						JavaScriptを使用してWebサイトを作成し、サーバーへの公開、そしてマーケティング方法まで、すべてのステップを網羅しています。
 						初級者から上級者まで、誰でも理解しやすいコンテンツを提供し、あなたの個人開発プロジェクトを成功に導きます。
