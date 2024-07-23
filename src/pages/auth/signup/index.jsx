@@ -1,5 +1,5 @@
 import React from 'react';
-import Auth from '@/components/common/auth/Auth';
+import Auth from '@/components/auth/Auth';
 
 const index = () => {
 	return <Auth signup={true} />;

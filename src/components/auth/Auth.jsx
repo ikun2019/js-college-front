@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import useAuth from '../../hooks/useAuth';
+import useAuth from '@/hooks/useAuth';
 import GmailSignupButton from './GmailSignupButton';
 import GithubSignupButton from './GithubSignupButton';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 const Auth = ({ signup }) => {
 	const { message, error, handleSignin, handleSignup, handleGmailSignin, handleGitHubSignin } =
