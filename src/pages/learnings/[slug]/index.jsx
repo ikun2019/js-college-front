@@ -4,15 +4,25 @@ import Link from 'next/link';
 
 import useAuthSession from '@/hooks/useAuthSession';
 
-import Sidebar from '../../../components/learnings/Sidebar';
+import Sidebar from '@/components/learnings/Sidebar';
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Spinner from '@/components/common/Spinner';
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
 import { useRouter } from 'next/router';
 
-const index = ({ parentMetadata, childMetadatas }) => {
+const index = ({ parentMetadata, childMetadatas, metas }) => {
 	console.log('Learnings Slug Page');
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
@@ -22,10 +32,16 @@ const index = ({ parentMetadata, childMetadatas }) => {
 
 	const router = useRouter();
 	const { user, session, profile, loading, fetchUserProfile } = useAuthSession();
+	const [showAlert, setShowAlert] = useState(false);
+
+	const handleRedirectSignin = () => {
+		setShowAlert(false);
+		router.push('/auth/signup');
+	};
 
 	useEffect(() => {
 		if (!loading && !session) {
-			router.push('/auth/signin');
+			setShowAlert(true);
 		}
 		if (session && !profile) {
 			fetchUserProfile();
@@ -36,9 +52,9 @@ const index = ({ parentMetadata, childMetadatas }) => {
 		return <Spinner />;
 	}
 
-	if (!user) {
-		return null;
-	}
+	// if (!user) {
+	// 	return null;
+	// }
 
 	return (
 		<>
@@ -56,7 +72,7 @@ const index = ({ parentMetadata, childMetadatas }) => {
 								{/* パンくずリスト */}
 								<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 							</div>
-							<h1 className="text-4xl font-bold mb-6 text-gray-800">{parentMetadata.title}</h1>
+							<h1 className="text-4xl font-bold mb-6 text-gray-800 mt-3">{parentMetadata.title}</h1>
 							<ReactMarkdown
 								children={parentMetadata.content}
 								components={{
@@ -130,8 +146,8 @@ const index = ({ parentMetadata, childMetadatas }) => {
 														''
 													)}
 												</div>
-												<h2 className="text-xl font-bold mb-2 text-gray-700">{item.title}</h2>
-												<p className="text-gray-600">{item.description}</p>
+												<h2 className="font-bold mb-2 text-gray-700 mt-3">{item.title}</h2>
+												<p className="text-gray-600 text-sm">{item.description}</p>
 											</Link>
 										</div>
 									</li>
@@ -140,11 +156,27 @@ const index = ({ parentMetadata, childMetadatas }) => {
 						</div>
 					</div>
 					{/* Sidebar */}
-					{/* <div className="w-full lg:w-1/4 px-6 mt-8 lg:mt-0">
-						<Sidebar />
-					</div> */}
+					{/* <div className="w-full lg:w-1/4 px-6 mt-8 lg:mt-0"> */}
+					<Sidebar metas={metas} />
+					{/* </div> */}
 				</section>
 			</div>
+			{showAlert && (
+				<AlertDialog open={showAlert} onOpenChange={() => setShowAlert(false)}>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>購読するにはユーザー登録が必要です。</AlertDialogTitle>
+							<AlertDialogDescription>
+								一部コンテンツは無料登録で閲覧できますが、ユーザー登録しますか？
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel onClick={() => setShowAlert(false)}>Cancel</AlertDialogCancel>
+							<AlertDialogAction onClick={handleRedirectSignin}>SignUp</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			)}
 		</>
 	);
 };
@@ -158,10 +190,23 @@ export async function getServerSideProps(context) {
 		}
 		const data = await response.json();
 
+		const allresponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		if (!allresponse.ok) {
+			throw new Error(`${allresponse.statusText}`);
+		}
+		const allData = await allresponse.json();
+
 		return {
 			props: {
 				parentMetadata: data.metadata,
 				childMetadatas: data.nestedMetadatas.reverse(),
+				metas: allData.metadatas || [],
 			},
 		};
 	} catch (error) {
@@ -169,6 +214,7 @@ export async function getServerSideProps(context) {
 			props: {
 				parentMetadata: null,
 				childMetadatas: [],
+				metas: [],
 			},
 		};
 	}

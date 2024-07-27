@@ -21,6 +21,8 @@ const LearningPage = ({ metas }) => {
 		setPaginatedMetas(newPaginatedMetas);
 	};
 
+	console.log('Learning page metas =>', metas);
+
 	return (
 		<>
 			<Head>
@@ -67,7 +69,7 @@ const LearningPage = ({ metas }) => {
 					</div>
 
 					{/* Sidebar */}
-					<Sidebar />
+					<Sidebar metas={metas} />
 				</section>
 			</div>
 		</>

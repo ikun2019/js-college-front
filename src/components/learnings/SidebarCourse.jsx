@@ -9,9 +9,9 @@ const SidebarCourse = ({ headings }) => {
 						key={index}
 						className={`block ${
 							heading.level === 2
-								? 'text-xl font-bold'
+								? 'text-md font-semibold mb-1'
 								: heading.level === 3
-								? 'ml-3 font-bold'
+								? 'ml-3 font-semibold mb-1'
 								: ''
 						}`}
 					>

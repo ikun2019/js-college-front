@@ -31,6 +31,8 @@ const Card = ({ meta }) => {
 		return data.newImageUrl;
 	};
 
+	console.log('Card =>', meta);
+
 	return (
 		<>
 			<article className="h-full">
@@ -54,6 +56,14 @@ const Card = ({ meta }) => {
 							<div className="space-x-2 mb-3">
 								<p className="text-gray-700 mb-4 test-sm">{meta.description}</p>
 							</div>
+							<hr />
+							<ul className="mt-3">
+								{meta.tags.map((tag) => (
+									<li className="inline-block bg-gray-200 px-2 py-1 rounded-md">
+										<span>{`# ${tag}`}</span>
+									</li>
+								))}
+							</ul>
 						</div>
 					</div>
 				</Link>
