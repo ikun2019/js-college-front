@@ -55,7 +55,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 		return <Spinner />;
 	}
 
-	console.log('Markdown =>', markdown);
+	console.log('markdown =>', markdown);
 
 	return (
 		<>
@@ -105,8 +105,9 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 										}
 										return <p className="text-sm leading-relaxed mb-4">{paragraph.children}</p>;
 									},
-									ul: (props) => <ul className="">{props.children}</ul>,
-									li: (props) => <li className="list-disc ml-6">{props.children}</li>,
+									ul: (props) => <ul className="list-disc ml-6">{props.children}</ul>,
+									li: (props) => <li>{props.children}</li>,
+									ol: (props) => <ol className="list-decimal ml-6">{props.children}</ol>,
 									a: (props) => (
 										<a href={props.href} className="text-blue-600">
 											{props.children}
