@@ -1,35 +1,40 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import useImageUrl from '@/hooks/useImageurl';
 
 const Card = ({ meta }) => {
-	const [imageUrl, setImageUrl] = useState(meta.image_url);
+	// const [imageUrl, setImageUrl] = useState(meta.image_url);
+	const { imageUrl, error } = useImageUrl(meta.image_url);
 
-	useEffect(() => {
-		const checkImageExpiry = async () => {
-			const response = await fetch(imageUrl, { method: 'HEAD' });
-			if (!response.ok) {
-				const newUrl = await fetchImageUrl();
-				setImageUrl(newUrl);
-			}
-		};
-		const interval = setInterval(checkImageExpiry, 3600000);
-		return () => clearInterval(interval);
-	}, [imageUrl]);
+	// useEffect(() => {
+	// 	const checkImageExpiry = async () => {
+	// 		const response = await fetch(imageUrl, { method: 'HEAD' });
+	// 		console.log('checkImageExpiry =>', response);
+	// 		if (!response.ok) {
+	// 			const newUrl = await fetchImageUrl();
+	// 			setImageUrl(newUrl);
+	// 		}
+	// 	};
+	// 	const interval = setInterval(checkImageExpiry, 3600000);
+	// 	return () => clearInterval(interval);
+	// }, [imageUrl]);
 
-	const fetchImageUrl = async () => {
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/api/learnings/get-new-image-url`,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}
-		);
-		const data = await response.json();
-		return data.newImageUrl;
-	};
+	// const fetchImageUrl = async () => {
+	// 	const response = await fetch(
+	// 		`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/api/learnings/get-new-image-url`,
+	// 		{
+	// 			method: 'GET',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			},
+	// 		}
+	// 	);
+	// 	const data = await response.json();
+	// 	return data.newImageUrl;
+	// };
+	if (error) return <div>Failed to load image</div>;
+	if (!imageUrl) return <div>Loading...</div>;
 
 	console.log('Card =>', meta);
 

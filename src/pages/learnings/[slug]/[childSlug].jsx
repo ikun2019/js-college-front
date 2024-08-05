@@ -121,10 +121,10 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 									tbody: ({ node, ...props }) => <tbody {...props} />,
 									tr: ({ node, ...props }) => <tr {...props} />,
 									th: ({ node, ...props }) => (
-										<th className="px-4 py-2 border border-gray-400" {...props} />
+										<th className="px-4 py-2 border border-gray-400 text-sm" {...props} />
 									),
 									td: ({ node, ...props }) => (
-										<td className="px-4 py-2 border border-gray-400" {...props} />
+										<td className="px-4 py-2 border border-gray-400 text-sm" {...props} />
 									),
 									code: ({ children, className, inline }) => {
 										const match = /language-(\w+)/.exec(className || '');
