@@ -13,7 +13,7 @@ const Sidebar = ({ className }) => {
 				},
 			});
 			const data = await response.json();
-			const tags = [...new Set(data.metadatas.flatMap((meta) => meta.tags))];
+			const tags = [...new Set(data.metadatas?.flatMap((meta) => meta.tags))];
 			setUniqueTags(tags);
 		};
 		fetchTags();

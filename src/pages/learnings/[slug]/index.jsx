@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import useSWR from 'swr';
 
 import useAuthSession from '@/hooks/useAuthSession';
 // import { fetchNotionData, fetchNestedPages } from '@/lib/notionClient';
@@ -98,7 +97,7 @@ const index = ({ initialParentData: parentData, initialChildData: childDatas, sl
 							<ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
 								{childDatas.map((item, index) => (
 									<li key={index} className="mb-3">
-										<div className="bg-gray-100 p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
+										<div className="bg-gray-100 p-4 rounded-lg hover:shadow-md active:shadow-none transition-shadow duration-300">
 											<Link
 												href={`/learnings/${parentData.Slug.rich_text[0].plain_text}/${item.slug}`}
 												className={`cursor-pointer ${
