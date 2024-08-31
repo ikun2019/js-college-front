@@ -148,44 +148,21 @@ const index = ({ initialParentData: parentData, initialChildData: childDatas, sl
 	);
 };
 
-export async function getStaticPaths() {
-	const allPageResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	const allPageResponseData = await allPageResponse.json();
-	const paths = allPageResponseData.metadatas.map((page) => ({
-		params: {
-			slug: page.slug,
-		},
-	}));
-	return {
-		paths,
-		fallback: 'blocking',
-	};
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
 	const { slug } = context.params;
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`, {
+		const slugResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
-		const data = await response.json();
-
+		const slugResponseData = await slugResponse.json();
 		return {
 			props: {
-				initialParentData: data.parentMetadata,
-				initialChildData: data.nestedMetadatas.reverse(),
-				// slug,
-				// metas: metas || [],
+				initialParentData: slugResponseData.parentMetadata,
+				initialChildData: slugResponseData.nestedMetadatas.reverse(),
 			},
-			revalidate: 300,
 		};
 	} catch (error) {
 		return {
