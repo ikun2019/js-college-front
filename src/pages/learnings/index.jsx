@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 // コンポーネントのインポート
 import BreadcrumbComponent from '../../components/common/BreadcrumbComponent';
 import Cards from '../../components/learnings/Cards';
-import Sidebar from '../../components/learnings/Sidebar';
+const Sidebar = dynamic(() => import('@/components/learnings/Sidebar'), { ssr: false });
 import PaginationComponent from '../../components/common/PaginationComponent';
 
 const LearningPage = ({ metas }) => {
@@ -20,8 +21,6 @@ const LearningPage = ({ metas }) => {
 	const handlePaginatedMetasChange = (newPaginatedMetas) => {
 		setPaginatedMetas(newPaginatedMetas);
 	};
-
-	console.log('Learning page metas =>', metas);
 
 	return (
 		<>
@@ -69,7 +68,7 @@ const LearningPage = ({ metas }) => {
 					</div>
 
 					{/* Sidebar */}
-					<Sidebar metas={metas} />
+					<Sidebar className="lg:mt-10" />
 				</section>
 			</div>
 		</>
@@ -78,10 +77,12 @@ const LearningPage = ({ metas }) => {
 
 export async function getServerSideProps() {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`);
-		if (!response.ok) {
-			throw new Error(`${response.statusText}`);
-		}
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
 		const data = await response.json();
 		return {
 			props: {

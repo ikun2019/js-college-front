@@ -8,7 +8,7 @@ const Sidebar = ({ metas }) => {
 	useEffect(() => {
 		if (searchWord) {
 			const results = metas.filter((meta) => {
-				return meta.title.toLowerCase().includes(searchWord.toLowerCase());
+				return meta.Title?.title[0].plain_text.toLowerCase().includes(searchWord.toLowerCase());
 			});
 			setResults(results);
 		} else {
@@ -17,7 +17,8 @@ const Sidebar = ({ metas }) => {
 	}, [searchWord, metas]);
 
 	// ユニークなtagを格納した配列を作成
-	const uniqueTags = metas.reduce((acc, meta) => [...acc, ...meta.tags], []);
+	const uniqueTags = metas.reduce((acc, meta) => [...acc, ...meta.Tags?.multi_select], []);
+
 	return (
 		<>
 			{/* <!-- Sidebar --> */}
@@ -32,10 +33,10 @@ const Sidebar = ({ metas }) => {
 							{uniqueTags.map((uniqueTag, index) => (
 								<li key={index} className="mb-2">
 									<Link
-										href={`/blogs/tag/${uniqueTag.toLowerCase()}`}
+										href={`/blogs?tag=${uniqueTag.name}`}
 										className="text-gray-700 hover:underline"
 									>
-										{uniqueTag}
+										{uniqueTag.name}
 									</Link>
 								</li>
 							))}

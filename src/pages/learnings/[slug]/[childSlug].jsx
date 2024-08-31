@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 // ライブラリのインポート
 import ReactMarkdown from 'react-markdown';
@@ -10,8 +12,10 @@ import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
 // コンポーネントのインポート
-import SinglePagenationComponent from '../../../components/common/SinglePaginationComponent';
-import SidebarCourse from '../../../components/learnings/SidebarCourse';
+const SinglePagenationComponent = dynamic(() =>
+	import('@/components/common/SinglePaginationComponent')
+);
+const SidebarCourse = dynamic(() => import('@/components/learnings/SidebarCourse'), { ssr: false });
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/common/Spinner';
@@ -27,6 +31,8 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 		{ label: slug, href: `/learnings/${slug}` },
 		{ label: metadata.slug, href: `/learnings/${slug}/${metadata.slug}` },
 	];
+
+	const [updatedImageUrl, setUpdatedImageUrl] = useState(null);
 
 	const router = useRouter();
 	const { user, session, loading, profile, fetchUserProfile } = useAuthSesseion();
@@ -47,6 +53,36 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 		}
 	}, [profile, router]);
 
+	// const handleImageError = async (imageUrl) => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/learnings/get-new-image-url`
+	// 		);
+	// 		if (response.ok) {
+	// 			const data = await response.json();
+	// 			setUpdatedImageUrl(data.newImageUrl);
+	// 		} else {
+	// 			console.error('Failed to fetch new image URL.');
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Failed to fetch new image URL:', error);
+	// 	}
+	// };
+
+	// const renderImage = (image) => {
+	// 	const imageUrl = updatedImageUrl || image.properties.src;
+	// 	return (
+	// 		<div className="relative w-full">
+	// 			<img
+	// 				src={imageUrl}
+	// 				alt={image.properties.alt}
+	// 				className="object-cover mb-3"
+	// 				onError={() => handleImageError(imageUrl)}
+	// 			/>
+	// 		</div>
+	// 	);
+	// };
+
 	if (loading || !profile) {
 		return <Spinner />;
 	}
@@ -55,7 +91,9 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 		return <Spinner />;
 	}
 
-	console.log('markdown =>', markdown);
+	const headingsIndex = (text) => {
+		return headings.findIndex((heading) => heading.text === text);
+	};
 
 	return (
 		<>
@@ -79,26 +117,40 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 								rehypePlugins={[rehypeRaw]}
 								remarkPlugins={[remarkGfm]}
 								components={{
-									h2: (props) => (
-										<h2 className="text-2xl border-b-2 border-gray-500 pl-4 pb-2 mb-2 mt-6 font-semibold">
-											{props.children}
-										</h2>
-									),
-									h3: (props) => (
-										<h3 className="text-xl border-l-4 border-gray-500 pl-4 mb-4 mt-3">
-											{props.children}
-										</h3>
-									),
+									h2: (props) => {
+										const index = headingsIndex(props.children.toString());
+										const id = `headings-${index}`;
+										return (
+											<h2
+												id={id}
+												className="text-2xl border-b-2 border-gray-500 pl-4 pb-2 mb-2 mt-6 font-semibold"
+											>
+												{props.children}
+											</h2>
+										);
+									},
+									h3: (props) => {
+										const index = headingsIndex(props.children.toString());
+										const id = `headings-${index}`;
+										return (
+											<h3 id={id} className="text-xl border-l-4 border-gray-500 pl-4 mb-4 mt-3">
+												{props.children}
+											</h3>
+										);
+									},
 									p: (paragraph) => {
 										const { node } = paragraph;
 										if (node.children[0].tagName === 'img') {
 											const image = node.children[0];
 											return (
 												<div className="relative w-full">
-													<img
+													<Image
 														src={image.properties.src}
 														alt={image.properties.alt}
-														className="object-cover mb-3"
+														width={800}
+														height={600}
+														placeholder="blur"
+														blurDataURL="./loading_image.webp"
 													/>
 												</div>
 											);
@@ -106,7 +158,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 										return <p className="text-sm leading-relaxed mb-4">{paragraph.children}</p>;
 									},
 									ul: (props) => <ul className="list-disc ml-6">{props.children}</ul>,
-									li: (props) => <li>{props.children}</li>,
+									li: (props) => <li className="mb-3">{props.children}</li>,
 									ol: (props) => <ol className="list-decimal ml-6">{props.children}</ol>,
 									a: (props) => (
 										<a href={props.href} className="text-blue-600">
@@ -155,11 +207,11 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 									},
 								}}
 							/>
-							{user && (
+							{/* {user && (
 								<div className="mt-4 text-center">
 									<Button variant="outline">Complete</Button>
 								</div>
-							)}
+							)} */}
 							<SinglePagenationComponent
 								page={`/learnings/${slug}`}
 								prevSlug={prevSlug}
@@ -177,29 +229,39 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 export async function getServerSideProps(context) {
 	const { slug, childSlug } = context.params;
 
+	const [contentsResponse, childResponse] = await Promise.all([
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Cache-Control': 'public, max-age=31536000, imutable',
+			},
+		}),
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}/${childSlug}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Cache-Control': 'public, max-age=31536000, imutable',
+			},
+		}),
+	]);
 	// * slug内のデータを取得
-	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`);
-	if (!response.ok) {
+	if (!contentsResponse.ok || !childResponse.ok) {
 		throw new Error('Data fetch failed');
 	}
-	const contents = await response.json();
-
-	// * 開いているコンテンツのデータを取得
-	const childResponse = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}/${childSlug}`
-	);
+	const contents = await contentsResponse.json();
 	const childContent = await childResponse.json();
 
 	// * ページネーションのためのデータ取得
-	const allChildSlugs = contents.nestedMetadatas.map((item) => item.slug).reverse();
+	const allChildSlugs = contents.nestedMetadatas.map((item) => item.slug);
 	const currentIndex = allChildSlugs.indexOf(childSlug);
-	const prevSlug = currentIndex > 0 ? allChildSlugs[currentIndex - 1] : null;
-	const nextSlug = currentIndex < allChildSlugs.length - 1 ? allChildSlugs[currentIndex + 1] : null;
+	const nextSlug = currentIndex > 0 ? allChildSlugs[currentIndex - 1] : null;
+	const prevSlug = currentIndex < allChildSlugs.length - 1 ? allChildSlugs[currentIndex + 1] : null;
 
 	return {
 		props: {
 			metadata: childContent.metadata,
-			markdown: childContent.markdown,
+			markdown: childContent.markdown.parent,
 			headings: childContent.headings,
 			prevSlug,
 			nextSlug,

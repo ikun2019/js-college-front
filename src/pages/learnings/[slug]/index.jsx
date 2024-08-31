@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import useSWR from 'swr';
 
 import useAuthSession from '@/hooks/useAuthSession';
+// import { fetchNotionData, fetchNestedPages } from '@/lib/notionClient';
 
-import Sidebar from '@/components/learnings/Sidebar';
+const Sidebar = dynamic(() => import('@/components/learnings/Sidebar'), { ssr: false });
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
 import Spinner from '@/components/common/Spinner';
 import {
@@ -19,20 +22,37 @@ import {
 } from '@/components/ui/alert-dialog';
 
 // ライブラリのインポート
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 import { useRouter } from 'next/router';
 
-const index = ({ parentMetadata, childMetadatas, metas }) => {
+const fetcher = async (url) => {
+	const response = await fetch(url);
+	const data = await response.json();
+	return data;
+};
+
+const index = ({ initialParentData: parentData, initialChildData: childDatas, slug }) => {
 	console.log('Learnings Slug Page');
-	const breadcrumbs = [
-		{ label: 'Home', href: '/' },
-		{ label: 'Learning', href: '/learnings' },
-		{ label: parentMetadata.slug, href: `/learnings/${parentMetadata.slug}` },
-	];
 
 	const router = useRouter();
 	const { user, session, profile, loading, fetchUserProfile } = useAuthSession();
 	const [showAlert, setShowAlert] = useState(false);
+
+	// SWRでデータをフェッチし初期データを渡す
+	// const { data: parentData } = useSWR(`/api/notion/parent?slug=${slug}`, fetcher, {
+	// 	fallback: initialParentData,
+	// });
+	// console.log('parentData =>', parentData);
+
+	// パンくずリスト
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'Learning', href: '/learnings' },
+		{
+			label: parentData?.Slug?.rich_text[0].plain_text,
+			href: `/learnings/${parentData?.Slug}`,
+		},
+	];
 
 	const handleRedirectSignin = () => {
 		setShowAlert(false);
@@ -59,8 +79,8 @@ const index = ({ parentMetadata, childMetadatas, metas }) => {
 	return (
 		<>
 			<Head>
-				<title>{`${parentMetadata.title} | JS College`}</title>
-				<meta name="description" content={`${parentMetadata.description}`} />
+				<title>{`${parentData?.Title?.title[0].plain_text} | JS College`}</title>
+				<meta name="description" content={`${parentData?.Description?.rich_text[0].plain_text}`} />
 				<meta name="robots" content="noindex,nofollow" />
 			</Head>
 			<div className="container mx-auto px-6 py-8">
@@ -72,66 +92,15 @@ const index = ({ parentMetadata, childMetadatas, metas }) => {
 								{/* パンくずリスト */}
 								<BreadcrumbComponent breadcrumbs={breadcrumbs} />
 							</div>
-							<h1 className="text-4xl font-bold mb-6 text-gray-800 mt-3">{parentMetadata.title}</h1>
-							<ReactMarkdown
-								children={parentMetadata.content}
-								components={{
-									h2(props) {
-										return (
-											<h2 className="text-2xl border-b-4 border-blue-500 pl-4 mb-4">
-												{props.children}
-											</h2>
-										);
-									},
-									h3(props) {
-										return (
-											<h3 className="text-xl border-l-4 border-blue-500 pl-4 mb-4 mt-3">
-												{props.children}
-											</h3>
-										);
-									},
-									p(paragraph) {
-										const { node } = paragraph;
-										if (node.children[0].tagName === 'img') {
-											const image = node.children[0];
-											return (
-												<div className="relative w-full my-4">
-													<img
-														src={image.properties.src}
-														alt={image.properties.alt}
-														className="object-cover rounded-lg shadow-lg"
-													/>
-												</div>
-											);
-										}
-										return <p className="text-lg leading-relaxed mb-4">{paragraph.children}</p>;
-									},
-									code(props) {
-										const { children, className } = props;
-										const language = className.split('-')[1];
-										return language ? (
-											<SyntaxHighlighter
-												PreTag="div"
-												children={String(children).replace(/\n$/, '')}
-												language={language}
-												style={dracula}
-												customStyle={{ fontSize: '0.9em', borderRadius: '8px' }}
-											/>
-										) : (
-											<code className={`${className} text-sm bg-gray-100 p-1 rounded`}>
-												{children}
-											</code>
-										);
-									},
-								}}
-								className="text-gray-700 mb-4"
-							></ReactMarkdown>
+							<h1 className="text-4xl font-bold mb-6 text-gray-800 mt-3">
+								{parentData?.Title?.title[0].plain_text}
+							</h1>
 							<ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-								{childMetadatas.map((item, index) => (
+								{childDatas.map((item, index) => (
 									<li key={index} className="mb-3">
 										<div className="bg-gray-100 p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
 											<Link
-												href={`/learnings/${parentMetadata.slug}/${item.slug}`}
+												href={`/learnings/${parentData.Slug.rich_text[0].plain_text}/${item.slug}`}
 												className={`cursor-pointer ${
 													item.premium && !profile?.is_subscribed ? 'disabled' : ''
 												}`}
@@ -156,9 +125,7 @@ const index = ({ parentMetadata, childMetadatas, metas }) => {
 						</div>
 					</div>
 					{/* Sidebar */}
-					{/* <div className="w-full lg:w-1/4 px-6 mt-8 lg:mt-0"> */}
-					<Sidebar metas={metas} />
-					{/* </div> */}
+					<Sidebar />
 				</section>
 			</div>
 			{showAlert && (
@@ -181,39 +148,50 @@ const index = ({ parentMetadata, childMetadatas, metas }) => {
 	);
 };
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+	const allPageResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	const allPageResponseData = await allPageResponse.json();
+	const paths = allPageResponseData.metadatas.map((page) => ({
+		params: {
+			slug: page.slug,
+		},
+	}));
+	return {
+		paths,
+		fallback: 'blocking',
+	};
+}
+
+export async function getStaticProps(context) {
 	const { slug } = context.params;
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`);
-		if (!response.ok) {
-			throw new Error(`${response.statusText}`);
-		}
-		const data = await response.json();
-
-		const allresponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings`, {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/learnings/${slug}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
-
-		if (!allresponse.ok) {
-			throw new Error(`${allresponse.statusText}`);
-		}
-		const allData = await allresponse.json();
+		const data = await response.json();
 
 		return {
 			props: {
-				parentMetadata: data.metadata,
-				childMetadatas: data.nestedMetadatas.reverse(),
-				metas: allData.metadatas || [],
+				initialParentData: data.parentMetadata,
+				initialChildData: data.nestedMetadatas.reverse(),
+				// slug,
+				// metas: metas || [],
 			},
+			revalidate: 300,
 		};
 	} catch (error) {
 		return {
 			props: {
-				parentMetadata: null,
-				childMetadatas: [],
+				initialParentData: null,
+				initialChildData: [],
 				metas: [],
 			},
 		};

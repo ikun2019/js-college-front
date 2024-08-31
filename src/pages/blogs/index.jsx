@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
 import fetch from 'node-fetch';
+import dynamic from 'next/dynamic';
 
 import BreadcrumbComponent from '../../components/common/BreadcrumbComponent';
-import Sidebar from '@/components/blogs/Sidebar';
+const Sidebar = dynamic(() => import('@/components/blogs/Sidebar'), { ssr: false });
 import PaginationComponent from '../../components/common/PaginationComponent';
 import Cards from '../../components/blogs/Cards';
 
@@ -15,7 +16,6 @@ const BlogsPage = ({ metas }) => {
 	];
 
 	const [paginatedMetas, setPaginatedMetas] = useState([]);
-
 	const articlePerPage = 10;
 	const handlePaginatedMetasChange = (newPaginatedMetas) => {
 		setPaginatedMetas(newPaginatedMetas);
@@ -74,16 +74,23 @@ const BlogsPage = ({ metas }) => {
 	);
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+	let requestUrl = `${process.env.NEXT_PUBLIC_API_URL}/blogs`;
+	if (context.query && context.query.tag) {
+		const { tag } = context.query;
+		requestUrl = `${process.env.NEXT_PUBLIC_API_URL}/blogs?tag=${tag}`;
+	}
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
-		if (!response.ok) {
-			throw new Error(`${response.statusText}`);
-		}
-		const data = await response.json();
+		const allBlogsResponse = await fetch(requestUrl, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		const allBlogsResponseData = await allBlogsResponse.json();
 		return {
 			props: {
-				metas: data.metadatas || [],
+				metas: allBlogsResponseData.metadatas || [],
 			},
 		};
 	} catch (error) {
