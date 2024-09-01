@@ -30,12 +30,13 @@ const fetcher = async (url) => {
 	return data;
 };
 
-const index = ({ initialParentData: parentData, initialChildData: childDatas, slug }) => {
+const index = ({ initialParentData: parentData, initialChildData: childDatas }) => {
 	console.log('Learnings Slug Page');
 
 	const router = useRouter();
 	const { user, session, profile, loading, fetchUserProfile } = useAuthSession();
 	const [showAlert, setShowAlert] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	// SWRでデータをフェッチし初期データを渡す
 	// const { data: parentData } = useSWR(`/api/notion/parent?slug=${slug}`, fetcher, {
@@ -53,6 +54,12 @@ const index = ({ initialParentData: parentData, initialChildData: childDatas, sl
 		},
 	];
 
+	const handleLinkClick = (e, href) => {
+		e.preventDefault();
+		setIsLoading(true);
+		router.push(href);
+	};
+
 	const handleRedirectSignin = () => {
 		setShowAlert(false);
 		router.push('/auth/signup');
@@ -67,7 +74,7 @@ const index = ({ initialParentData: parentData, initialChildData: childDatas, sl
 		}
 	}, [user, loading, router, profile]);
 
-	if (loading) {
+	if (loading || isLoading) {
 		return <Spinner />;
 	}
 
@@ -100,6 +107,12 @@ const index = ({ initialParentData: parentData, initialChildData: childDatas, sl
 										<div className="bg-gray-100 p-4 rounded-lg hover:shadow-md active:shadow-none transition-shadow duration-300">
 											<Link
 												href={`/learnings/${parentData.Slug.rich_text[0].plain_text}/${item.slug}`}
+												onClick={(e) =>
+													handleLinkClick(
+														e,
+														`/learnings/${parentData.Slug.rich_text[0].plain_text}/${item.slug}`
+													)
+												}
 												className={`cursor-pointer ${
 													item.premium && !profile?.is_subscribed ? 'disabled' : ''
 												}`}
