@@ -255,8 +255,8 @@ export async function getServerSideProps(context) {
 	// * ページネーションのためのデータ取得
 	const allChildSlugs = contents.nestedMetadatas.map((item) => item.slug);
 	const currentIndex = allChildSlugs.indexOf(childSlug);
-	const nextSlug = currentIndex > 0 ? allChildSlugs[currentIndex - 1] : null;
-	const prevSlug = currentIndex < allChildSlugs.length - 1 ? allChildSlugs[currentIndex + 1] : null;
+	const prevSlug = currentIndex > 0 ? allChildSlugs[currentIndex - 1] : null;
+	const nextSlug = currentIndex < allChildSlugs.length - 1 ? allChildSlugs[currentIndex + 1] : null;
 
 	return {
 		props: {
