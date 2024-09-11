@@ -253,7 +253,9 @@ export async function getServerSideProps(context) {
 	const childContent = await childResponse.json();
 
 	// * ページネーションのためのデータ取得
-	const allChildSlugs = contents.nestedMetadatas.map((item) => item.slug);
+	const allChildSlugs = contents.nestedMetadatas
+		.sort((a, b) => a.number - b.number)
+		.map((item) => item.slug);
 	const currentIndex = allChildSlugs.indexOf(childSlug);
 	const prevSlug = currentIndex > 0 ? allChildSlugs[currentIndex - 1] : null;
 	const nextSlug = currentIndex < allChildSlugs.length - 1 ? allChildSlugs[currentIndex + 1] : null;

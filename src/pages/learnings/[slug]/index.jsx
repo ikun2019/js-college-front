@@ -4,7 +4,6 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
 import useAuthSession from '@/hooks/useAuthSession';
-// import { fetchNotionData, fetchNestedPages } from '@/lib/notionClient';
 
 const Sidebar = dynamic(() => import('@/components/learnings/Sidebar'), { ssr: false });
 import BreadcrumbComponent from '@/components/common/BreadcrumbComponent';
@@ -21,14 +20,7 @@ import {
 } from '@/components/ui/alert-dialog';
 
 // ライブラリのインポート
-// import ReactMarkdown from 'react-markdown';
 import { useRouter } from 'next/router';
-
-const fetcher = async (url) => {
-	const response = await fetch(url);
-	const data = await response.json();
-	return data;
-};
 
 const index = ({ initialParentData: parentData, initialChildData: childDatas }) => {
 	console.log('Learnings Slug Page');
@@ -37,12 +29,6 @@ const index = ({ initialParentData: parentData, initialChildData: childDatas }) 
 	const { user, session, profile, loading, fetchUserProfile } = useAuthSession();
 	const [showAlert, setShowAlert] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-
-	// SWRでデータをフェッチし初期データを渡す
-	// const { data: parentData } = useSWR(`/api/notion/parent?slug=${slug}`, fetcher, {
-	// 	fallback: initialParentData,
-	// });
-	// console.log('parentData =>', parentData);
 
 	// パンくずリスト
 	const breadcrumbs = [
@@ -170,10 +156,11 @@ export async function getServerSideProps(context) {
 			},
 		});
 		const slugResponseData = await slugResponse.json();
+
 		return {
 			props: {
 				initialParentData: slugResponseData.parentMetadata,
-				initialChildData: slugResponseData.nestedMetadatas.reverse(),
+				initialChildData: slugResponseData.nestedMetadatas.sort((a, b) => a.number - b.number),
 			},
 		};
 	} catch (error) {
