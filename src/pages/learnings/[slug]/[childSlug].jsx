@@ -32,8 +32,6 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 		{ label: metadata.slug, href: `/learnings/${slug}/${metadata.slug}` },
 	];
 
-	const [updatedImageUrl, setUpdatedImageUrl] = useState(null);
-
 	const router = useRouter();
 	const { user, session, loading, profile, fetchUserProfile } = useAuthSesseion();
 
@@ -52,36 +50,6 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 			router.push('/auth/profile');
 		}
 	}, [profile, router]);
-
-	// const handleImageError = async (imageUrl) => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			`${process.env.NEXT_PUBLIC_API_CLIENT_URL}/learnings/get-new-image-url`
-	// 		);
-	// 		if (response.ok) {
-	// 			const data = await response.json();
-	// 			setUpdatedImageUrl(data.newImageUrl);
-	// 		} else {
-	// 			console.error('Failed to fetch new image URL.');
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Failed to fetch new image URL:', error);
-	// 	}
-	// };
-
-	// const renderImage = (image) => {
-	// 	const imageUrl = updatedImageUrl || image.properties.src;
-	// 	return (
-	// 		<div className="relative w-full">
-	// 			<img
-	// 				src={imageUrl}
-	// 				alt={image.properties.alt}
-	// 				className="object-cover mb-3"
-	// 				onError={() => handleImageError(imageUrl)}
-	// 			/>
-	// 		</div>
-	// 	);
-	// };
 
 	if (loading || !profile) {
 		return <Spinner />;
@@ -158,7 +126,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 										return <p className="text-sm leading-relaxed mb-4">{paragraph.children}</p>;
 									},
 									ul: (props) => <ul className="list-disc ml-6">{props.children}</ul>,
-									li: (props) => <li className="mb-3">{props.children}</li>,
+									li: (props) => <li className="mb-3 text-sm">{props.children}</li>,
 									ol: (props) => <ol className="list-decimal ml-6">{props.children}</ol>,
 									a: (props) => (
 										<a href={props.href} className="text-blue-600">
@@ -183,7 +151,28 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 										const codeContent = String(children).replace(/\n$/, '');
 										const lines = codeContent.split('\n');
 										const fileName = lines[0].startsWith('# ') ? lines[0].slice(2) : '';
-										const code = fileName ? lines.slice(1).join('\n') : codeContent;
+
+										const code = fileName ? lines.slice(1) : [codeContent];
+
+										const lineProps = (lineNumber) => {
+											let style = {};
+											if (!lineNumber || lineNumber <= 0 || lineNumber > lines.length) {
+												return {};
+											}
+											const line = code[lineNumber - 1];
+											console.log('line =>', line);
+
+											if (line && line.trim().startsWith('// #')) {
+												style.backgroundColor = '#FFD5EC';
+											}
+											if (line && line.trim().startsWith('// *')) {
+												style.backgroundColor = '#CCFFFF';
+											}
+											return { style };
+										};
+
+										const codeData = code.join('\n');
+
 										return !inline && match ? (
 											<div className="relative my-4">
 												{fileName && (
@@ -192,12 +181,17 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 													</div>
 												)}
 												<SyntaxHighlighter
-													PreTag="div"
-													children={code}
+													// PreTag="div"
 													language={match[1]}
+													wrapLines
+													showLineNumbers
+													useInlineStyles
 													style={dracula}
+													lineProps={lineProps}
 													customStyle={{ fontSize: '0.8em' }}
-												/>
+												>
+													{codeData}
+												</SyntaxHighlighter>
 											</div>
 										) : (
 											<code className={`${className} text-sm bg-gray-200 text-red-500`}>
