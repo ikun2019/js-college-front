@@ -163,10 +163,10 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 											console.log('line =>', line);
 
 											if (line && line.trim().startsWith('// #')) {
-												style.backgroundColor = '#FFD5EC';
+												style.backgroundColor = '#eef515';
 											}
-											if (line && line.trim().startsWith('// *')) {
-												style.backgroundColor = '#CCFFFF';
+											if (line && line.trim().startsWith('<!-- #')) {
+												style.backgroundColor = '#eef515';
 											}
 											return { style };
 										};
