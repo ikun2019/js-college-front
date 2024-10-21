@@ -110,6 +110,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 										const { node } = paragraph;
 										if (node.children[0].tagName === 'img') {
 											const image = node.children[0];
+
 											return (
 												<div className="relative w-full">
 													<Image
@@ -126,7 +127,7 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 										return <p className="text-sm leading-relaxed mb-4">{paragraph.children}</p>;
 									},
 									ul: (props) => <ul className="list-disc ml-6">{props.children}</ul>,
-									li: (props) => <li className="mb-3 text-sm">{props.children}</li>,
+									li: (props) => <li className="mb-2 text-sm">{props.children}</li>,
 									ol: (props) => <ol className="list-decimal ml-6">{props.children}</ol>,
 									a: (props) => (
 										<a href={props.href} className="text-blue-600">
@@ -160,7 +161,6 @@ const LearningContent = ({ slug, metadata, markdown, prevSlug, nextSlug, heading
 												return {};
 											}
 											const line = code[lineNumber - 1];
-											console.log('line =>', line);
 
 											if (line && line.trim().startsWith('// #')) {
 												style.backgroundColor = '#eef515';
